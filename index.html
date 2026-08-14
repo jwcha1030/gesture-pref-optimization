@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+<title>Why Is Human-Preference Optimization Difficult for Co-Speech Gesture Generation?</title>
+<style>
+  :root{
+    --bg:#fbfaf8; --panel:#ffffff; --ink:#1c1b19; --muted:#6b6862;
+    --rule:#e3ded6; --accent:#b4642a; --accent-soft:#f6ede4;
+    --warn:#a3341f; --warn-soft:#fbeeea;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:Georgia,"Times New Roman",serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#151412; --panel:#1e1d1a; --ink:#eceae6; --muted:#a09a90;
+           --rule:#332f2a; --accent:#e0965c; --accent-soft:#2a231c;
+           --warn:#e88b73; --warn-soft:#2e1f1a; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+       line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+  header{padding:56px 0 30px;border-bottom:1px solid var(--rule)}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.45rem,3.2vw,2.15rem);
+     line-height:1.25;margin:0;text-wrap:balance}
+  h1 .sub{display:block;font-size:.63em;font-weight:400;color:var(--muted);margin-top:10px}
+  .byline{font-size:.9rem;color:var(--muted);margin:18px 0 0}
+  .lede{font-size:1.02rem;margin:24px 0 0;max-width:68ch}
+  section{padding:42px 0;border-bottom:1px solid var(--rule)}
+  h2{font-family:var(--serif);font-weight:600;font-size:1.3rem;margin:0 0 4px;text-wrap:balance}
+  .eyebrow{font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;
+           color:var(--accent);font-weight:600;margin:0 0 10px}
+  .note{color:var(--muted);max-width:70ch;margin:12px 0 0}
+  .finding{margin:18px 0 4px;padding:13px 16px;background:var(--accent-soft);
+           border-left:3px solid var(--accent);border-radius:0 6px 6px 0;max-width:72ch}
+  .caution{background:var(--warn-soft);border-left-color:var(--warn)}
+  .caution b{color:var(--warn)}
+  .finding b{font-variant-numeric:tabular-nums}
+  .clip{margin-top:26px}
+  .clip h3{margin:0 0 8px;font-size:.83rem;font-weight:600;color:var(--muted);
+           letter-spacing:.04em;text-transform:uppercase;
+           display:flex;flex-wrap:wrap;gap:10px;align-items:baseline}
+  .clip video{width:100%;border-radius:8px;background:#000;display:block;
+              border:1px solid var(--rule)}
+  .score{font-family:var(--mono);font-size:.72rem;text-transform:none;letter-spacing:0;
+         color:var(--accent);font-weight:500}
+  figure{margin:26px 0 0;background:var(--panel);border:1px solid var(--rule);
+         border-radius:10px;padding:16px}
+  figure img{width:100%;height:auto;display:block;border-radius:4px}
+  figcaption{font-size:.86rem;color:var(--muted);margin-top:12px;max-width:75ch}
+  .tablewrap{overflow-x:auto;margin-top:22px}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--rule)}
+  th{font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:.86rem}
+  footer{padding:36px 0 64px;color:var(--muted);font-size:.87rem}
+  footer p{max-width:75ch}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <h1>Why Is Human-Preference Optimization Difficult for Co-Speech Gesture Generation?
+    <span class="sub">A Controlled Study of Rewards, Generator Support, and Evaluation</span></h1>
+  <p class="byline">David J. Cha, SungYoon Lim, Dohyung Kim, Jaehong Kim, Youngwoo Yoon &middot; ETRI &amp; UST &middot; supplementary video material</p>
+  <p class="lede">Example stimuli from the human studies reported in the paper. Nothing
+    here is a new result &mdash; every number quoted below appears in the paper. The videos
+    are provided so the comparisons can be inspected directly rather than taken on trust.
+    In each clip the three panels play together: real motion capture, the untrained
+    baseline, and our steered model, on the same speech.</p>
+</div></header>
+
+<section><div class="wrap">
+  <p class="eyebrow">Side-by-side comparisons</p>
+  <h2>Real motion, the untrained baseline, and our steered model</h2>
+  <p class="note">Each video plays three panels together on identical held-out speech: real
+    motion capture, the untrained GestureLSM baseline, and a noise-steered policy.</p>
+  <p class="note">Both policies shown are trained by <strong>winner imitation</strong>: for
+    a given speech prompt the system samples <em>K</em> candidate initial noises, the
+    learned reward picks the highest-scoring one, and the policy is trained to reproduce
+    that winning noise &mdash; so at inference it proposes a good noise in one shot instead
+    of searching. The first three clips use the policy trained with
+    <em>K</em>&nbsp;=&nbsp;32 candidates per prompt; the last uses the
+    <em>K</em>&nbsp;=&nbsp;64 policy from the reward-selected study. These are illustrative
+    examples; the aggregate result over all clips and participants is in the table
+    below.</p>
+
+  <div class="clip">
+    <h3>Clip 1 <span class="score">noise policy, K = 32</span></h3>
+    <video controls preload="none" playsinline poster="posters/sbs_1_1.jpg" src="videos/sbs_1_1.mp4"></video>
+  </div>
+  <div class="clip">
+    <h3>Clip 2 <span class="score">noise policy, K = 32</span></h3>
+    <video controls preload="none" playsinline poster="posters/sbs_95_95.jpg" src="videos/sbs_95_95.mp4"></video>
+  </div>
+  <div class="clip">
+    <h3>Clip 3 <span class="score">noise policy, K = 32</span></h3>
+    <video controls preload="none" playsinline poster="posters/sbs_5_5.jpg" src="videos/sbs_5_5.mp4"></video>
+  </div>
+  <div class="clip">
+    <h3>Clip 4 <span class="score">noise policy, K = 64 &mdash; reward-selected study</span></h3>
+    <video controls preload="none" playsinline poster="posters/sbs_87_87.jpg" src="videos/sbs_87_87.mp4"></video>
+  </div>
+
+  <div class="tablewrap"><table>
+    <thead><tr><th>Study</th><th>Comparison</th><th class="num">N</th><th class="num">Mean pref.</th><th class="num">d</th><th class="num">p</th></tr></thead>
+    <tbody>
+      <tr><td>Main study</td><td>winner imitation (K = 16) vs. baseline</td><td class="num">51</td><td class="num">&minus;0.011</td><td class="num">&minus;0.03</td><td class="num">1.000</td></tr>
+      <tr><td>Main study</td><td>winner imitation (K = 32) vs. baseline</td><td class="num">51</td><td class="num">&minus;0.023</td><td class="num">&minus;0.06</td><td class="num">0.878</td></tr>
+      <tr><td>Reward-selected</td><td>largest-search imitation (K = 64) vs. baseline</td><td class="num">30</td><td class="num">+0.085</td><td class="num">+0.23</td><td class="num">0.345</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">Positive values mean participants preferred the tested policy; negative
+    values mean they preferred the untrained baseline. In the same study <strong>49 of 51</strong>
+    participants preferred real motion capture over that baseline, so the evaluation does
+    detect a large quality difference. A training-free control that simply keeps the
+    best-scoring of 32 random candidates raised the learned reward by <strong>+0.98</strong> on
+    all 15 held-out prompts, and also produced no reliable preference gain.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">Reward exploitation</p>
+  <h2>What a reward exploit looks like</h2>
+  <p class="note">During the earlier weight-space experiments, optimizing against the
+    predecessor reward produced outputs that scored well while looking clearly worse to
+    people &mdash; the failure mode commonly called <em>reward hacking</em>. Below, each
+    panel carries the reward score assigned to it: real motion capture on the left, the
+    untrained baseline in the middle, and on the right the exploiting candidate, which the
+    reward ranked highest of the three.</p>
+  <div class="finding"><b>The reward scores the exploit &minus;107.0</b>, above both the
+    baseline (&minus;127.8) and real human motion (&minus;120.6) &mdash; yet it barely
+    gestures at all. A score can rise while perceived quality falls, which is why the paper
+    treats a learned-score gain as evidence only after the reward has been validated on the
+    candidates an optimizer actually selects.</div>
+  <div class="clip">
+    <h3>Real motion &middot; baseline &middot; reward-exploiting candidate
+      <span class="score">reward score shown on each panel; higher is better</span></h3>
+    <video controls preload="none" playsinline poster="posters/hack_plain.jpg" src="videos/hack_plain.mp4"></video>
+  </div>
+  <p class="note">Exploits of this kind were catalogued and turned into test pairs. The
+    deployed two-axis reward ranks <strong>100%</strong> of those catalogued exploit pairs
+    the way human raters did, against 62% for its predecessor &mdash; but closing a known
+    exploit class still did not yield a system people preferred, which is the puzzle the
+    paper sets out to explain.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">What the action space reaches</p>
+  <h2>Can you tell the candidates apart?</h2>
+  <p class="note">The paper measures the variation available to steering three ways:
+    whether candidates fall into distinct groups, how long an introduced difference
+    survives, and whether the learned reward can be raised. The three videos below cover
+    all three measurements &mdash; the parts you can judge with your own eyes. The third
+    is below too.</p>
+
+  <div class="finding"><b>Expect to see very little. That is the result.</b> Candidates
+    cluster no more than mode-free data does, and restarting generation from a partly-formed
+    motion &mdash; a stronger intervention than the deployed system, which only changes the
+    initial noise &mdash; produces at most <b>0.36&times;</b> the spread of ordinary fresh
+    samples. In a blind review of four such boards every one was judged the same coarse
+    pattern with minor variations. If a reward has nothing meaningfully different to choose
+    between, no amount of selection pressure can produce a better gesture.</div>
+
+  <div class="clip"><h3>Do candidates fall into distinct groups?
+      <span class="score">one candidate drawn from each of four clusters, same prompt</span></h3>
+    <video controls preload="none" playsinline poster="posters/exp_cluster.jpg" src="videos/exp_cluster.mp4"></video></div>
+  <p class="note">Embeddings of 24 ordinary random candidates were clustered for each of 20
+    prompts; the panels show one member of each cluster alongside real motion. The same
+    clustering procedure gave essentially the same score on matched single-Gaussian data,
+    which contains no discrete modes by construction, in 99.7% of 600 draws &mdash; so the
+    clusters do not by themselves establish distinct behavioural alternatives.</p>
+
+  <div class="clip"><h3>How long does an introduced difference survive?
+      <span class="score">same speech, three deliberately different opening poses</span></h3>
+    <video controls preload="none" playsinline poster="posters/exp_seed.jpg" src="videos/exp_seed.mp4"></video></div>
+  <p class="note">The generator is primed with a short opening pose before it starts. Here
+    the same speech is decoded from three openings chosen to be as unlike each other as
+    possible &mdash; at the first frame one begins mid-gesture with both arms raised while
+    another stands with arms down. Within a few seconds the shared speech conditioning has
+    pulled them back together, and by the end of the clip they are hard to tell apart. A
+    difference injected at the beginning does not survive as a lasting alternative.</p>
+
+  <div class="clip"><h3>Can the reward be raised at all?
+      <span class="score">noise size frozen, only the direction learned</span></h3>
+    <video controls preload="none" playsinline poster="posters/exp_direction.jpg" src="videos/exp_direction.mp4"></video></div>
+  <p class="note">An initial-noise vector can be changed two ways: its overall size, and
+    the direction it points. Tested separately, a policy free to change only the
+    <em>size</em> settled on the generator's default and reproduced the baseline motion, so
+    that freedom carries nothing useful and there is no video to show. The policy above
+    holds the size fixed and learns only the direction &mdash; and it does raise the learned
+    reward on speech it was never trained on. The usable variation lies in the direction of
+    the noise, not its size.</p>
+
+  <div class="clip"><h3>How different can a candidate be made?
+      <span class="score">three candidates for one prompt, reviewed blind</span></h3>
+    <video controls preload="none" playsinline poster="posters/board_87.jpg" src="videos/board_87.mp4"></video></div>
+  <p class="note">Shown to the reviewer as A, B, C with the assignment hidden: one panel is
+    the untrained baseline, one an ordinary fresh sample, and one a candidate produced by
+    restarting generation from a partly-formed motion. All three are genuinely different
+    motions, and all three were judged one coarse pattern.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">System and reward</p>
+  <h2>How candidates are produced and scored</h2>
+  <figure><img src="figs/fig1_final.png" alt="Problem setting: candidates generated from different initial noises are ranked by a two-axis reward; the studied boundary moves from weight updates to input-noise steering.">
+    <figcaption>The preference-optimization problem, and the progression from weight
+      updates to input-noise steering with the generator frozen.</figcaption></figure>
+  <figure><img src="figs/fig2_final.png" alt="Initial-noise steering: a policy or search proposes candidate noises; the frozen generator maps each with speech conditioning to a candidate motion; a catastrophic filter and a two-axis reward rank them.">
+    <figcaption>Initial-noise steering with the generator frozen. Candidates failing the
+      catastrophic filter are kept but ranked last.</figcaption></figure>
+  <figure><img src="figs/fig3_final.png" alt="The two-axis reward: naturalness from motion statistics and a realism logit, speech alignment from stroke-beat matching, standardized and combined.">
+    <figcaption>The deployed two-axis reward. Naturalness is motion-only; alignment is
+      audio-conditioned. The score ranks candidates only within one prompt.</figcaption></figure>
+</div></section>
+
+<footer><div class="wrap">
+  <p><strong>Stimuli.</strong> Clips are 20&nbsp;s, rendered with a neutral avatar and the
+  original speech audio, and are held out from policy training. Participants saw the two
+  systems without labels and with the left/right order swapped between pages; the labels
+  here are for reading only.</p>
+  <p><strong>Data.</strong> Motion and speech come from the BEAT2 corpus, used
+  non-commercially for research. No participant data is published: raw responses contain
+  pseudonymous identifiers and demographics and are not released.</p>
+  <p><strong>Scope.</strong> All findings are for one speaker, one generator checkpoint, the
+  tested prompts, and the recruited participant groups.</p>
+</div></footer>
+
+</body>
+</html>
