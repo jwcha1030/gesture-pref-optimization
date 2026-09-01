@@ -324,6 +324,11 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
     <p class="body">This is the table people misread, so lead with the caption: <strong>every entry is
       a percentage, but of a different quantity.</strong> The rows are not stages of one learning curve;
       each row tests the reward on a different kind of comparison.</p>
+    <p class="body"><strong>But read them top to bottom anyway</strong>, because the order is the argument:
+      the reward looks excellent on the data we built it on, and its agreement with people decays
+      monotonically as the test population moves toward what an optimizer actually sees. By the last
+      human row it is at chance, and the final row explains why its raw scores cannot be compared across
+      prompts at all.</p>
     <div class="tw"><table>
       <thead><tr><th>Row</th><th>What the percentage is a percentage of</th><th>Why it is on the poster</th></tr></thead>
       <tbody>
@@ -333,15 +338,23 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
         <tr><td>100 %</td><td>Share of <strong>catalogued exploit pairs</strong> ranked correctly —
           ordinary motion versus the reward-exploiting styles collected in the weight-space era.</td>
           <td>The reward covers the exploit class we already knew about.</td></tr>
-        <tr><td>60.7 % (n = 1,413)</td><td>Share of <strong>participant choices</strong> in the main study
-          that the reward agrees with, when it scores both clips of a shown pair.</td>
-          <td>Real but only above-chance: local ordering, not a ranking guarantee.</td></tr>
-        <tr><td>≈ 53 % (n = 360)</td><td>The same agreement, restricted to pairs from the two systems
-          whose motion is <strong>closest to the baseline</strong>.</td>
-          <td>Almost a coin flip. This is the fine-ranking regime optimization actually operates in.</td></tr>
-        <tr><td>65 % variance</td><td>Share of naturalness-score <strong>variance explained by clip
-          identity</strong> across 24 candidates for each of 20 clips.</td>
-          <td>Raw scores are not global utilities: which speech clip it is dominates the score.</td></tr>
+        <tr><td>60.7 % (n = 1,413)</td><td>Every page of the 51-person main study showed two motions and
+          the participant picked one. The reward scores both, so it has a pick too. This is the share of
+          the 1,413 shown pairs where the two picks <strong>match</strong> — 50 % would be chance.
+          (Naturalness 60.6 %, alignment 60.7 %.) The unit is a shown pair, not a participant.</td>
+          <td>Real but only above chance: local ordering, not a ranking guarantee.</td></tr>
+        <tr><td>≈ 53 % (n = 360)</td><td>The same agreement measure, on the 360 pairs of the last study
+          we ran (10 participants × 36 comparisons), which tested the two remaining mechanisms:
+          <strong>shell-then-direction</strong> (direction learned, magnitude frozen) and
+          <strong>elite-refit at K = 64</strong> (winner imitation at the widest search). Their motion sits
+          especially close to the untrained baseline. Naturalness 54 %, alignment 53 %.</td>
+          <td>Chance. And this is the regime optimization actually operates in — every candidate a noise
+          policy chooses among is a near-baseline output of the same frozen generator for the same prompt.</td></tr>
+        <tr><td>65 % variance</td><td>Not an accuracy at all — a variance decomposition. Score 24 candidates
+          for each of 20 speech clips, then ask how much of the total spread in naturalness scores is
+          explained by <strong>which clip it is</strong> rather than by which candidate. Answer: 65 %.</td>
+          <td>Raw scores are not global utilities. You cannot compare a score from clip A with a score
+          from clip B — hence the usage rule.</td></tr>
       </tbody>
     </table></div>
     <p class="body"><strong>Say the rule out loud:</strong> use the reward only to rank candidates
@@ -906,6 +919,7 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
 
     <span class="cue">Table 2 읽기 — 다섯 줄, 다섯 개의 서로 다른 집단</span>
     <p class="body">사람들이 오독하는 표라, 캡션부터 말하는 게 좋습니다. <strong>다섯 항목 모두 퍼센트지만, 각각 다른 것의 퍼센트입니다.</strong> 학습 곡선의 단계가 아니라, 각 줄이 다른 종류의 비교에서 reward를 시험한 결과입니다.</p>
+    <p class="body"><strong>그래도 위에서 아래로 읽으세요.</strong> 순서 자체가 논증이니까요 — reward는 자기가 만들어진 데이터에서는 훌륭해 보이고, 시험 집단이 optimizer가 실제로 보는 것에 가까워질수록 사람과의 일치율이 단조롭게 떨어집니다. 마지막 사람 평가 줄에서는 우연 수준이고, 맨 아래 줄은 왜 raw 점수를 prompt 간에 비교할 수 없는지를 설명합니다.</p>
     <div class="tw"><table>
       <thead><tr><th>줄</th><th>무엇의 퍼센트인가</th><th>포스터에 있는 이유</th></tr></thead>
       <tbody>
@@ -913,12 +927,12 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
           <td>대표 수치. 단, 설계를 이끈 데이터 위에서 잰 값입니다.</td></tr>
         <tr><td>100 %</td><td><strong>목록화된 exploit pair</strong> — 평범한 동작 대 weight-space 시절 수집한 reward-exploiting 스타일 — 을 옳게 순위 매긴 비율.</td>
           <td>이미 알고 있던 exploit 종류는 이 reward가 덮습니다.</td></tr>
-        <tr><td>60.7 % (n = 1,413)</td><td>본 실험에서 reward가 두 클립을 채점했을 때 <strong>참가자의 선택</strong>과 일치한 비율.</td>
+        <tr><td>60.7 % (n = 1,413)</td><td>51명 본 실험의 모든 페이지가 동작 두 개를 보여 주고 참가자가 하나를 골랐습니다. reward도 둘 다 채점하니 자기 선택이 있죠. 이건 보여 준 1,413개 pair 중 두 선택이 <strong>일치한</strong> 비율입니다 — 50 %가 우연 수준. (naturalness 60.6 %, alignment 60.7 %.) 단위는 참가자가 아니라 보여 준 pair 하나입니다.</td>
           <td>실재하지만 above-chance 수준. 국소적 순서지 순위 보장이 아닙니다.</td></tr>
-        <tr><td>≈ 53 % (n = 360)</td><td>같은 일치율을, <strong>baseline과 가장 가까운</strong> 두 시스템의 pair로 한정했을 때.</td>
-          <td>거의 동전 던지기. optimization이 실제로 작동하는 fine-ranking 구간이 여기입니다.</td></tr>
-        <tr><td>65 % variance</td><td>20개 클립 × 후보 24개에서 naturalness 점수의 분산 중 <strong>클립 정체성이 설명하는 비율</strong>.</td>
-          <td>raw 점수는 전역 효용이 아닙니다. 어느 클립이냐가 점수를 지배합니다.</td></tr>
+        <tr><td>≈ 53 % (n = 360)</td><td>같은 일치율을, 마지막으로 돌린 실험의 360개 pair(참가자 10명 × 36개 비교)에 적용한 것. 이 실험은 남은 두 mechanism을 시험했습니다 — <strong>shell-then-direction</strong>(방향은 학습, 크기는 고정)과 <strong>elite-refit K = 64</strong>(가장 넓은 search에서의 winner imitation). 이 둘의 동작은 untrained baseline과 특히 가깝습니다. naturalness 54 %, alignment 53 %.</td>
+          <td>우연 수준. 그리고 optimization이 실제로 작동하는 구간이 바로 여기입니다 — noise policy가 고르는 후보는 전부 같은 prompt에 대한 같은 얼린 generator의 near-baseline 출력이니까요.</td></tr>
+        <tr><td>65 % variance</td><td>정확도가 아니라 분산 분해입니다. 20개 speech clip 각각에 후보 24개를 채점한 뒤, naturalness 점수의 전체 퍼짐 중 <strong>어느 클립이냐</strong>가 설명하는 비율이 얼마인지 묻습니다. 답은 65 %.</td>
+          <td>raw 점수는 전역 효용이 아닙니다. 클립 A의 점수와 클립 B의 점수를 비교할 수 없습니다 — 사용 규칙이 여기서 나옵니다.</td></tr>
       </tbody>
     </table></div>
     <p class="body"><strong>규칙을 소리 내어 말하세요.</strong> reward는 <em>같은</em> speech prompt로 생성된 후보들끼리 순위 매길 때, 또는 그 같은 prompt의 baseline과 비교할 때만 씁니다. reward가 진짜 국소 신호를 담고 있으면서도 optimization이 요구하는 fine ranking에서는 실패할 수 있습니다.</p>
