@@ -12,7 +12,7 @@
   img{max-width:100%}
   [hidden]{display:none!important}
   @media print{
-    nav.rail{display:none}
+    nav.rail,.langtoggle{display:none}
     .cols{display:block}
     details{border-left:none;padding-left:0}
     details>*{display:block!important}
@@ -149,6 +149,19 @@ td.num-c{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-num
 
 footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); color:var(--muted); font-size:14px}
 :focus-visible{outline:2px solid var(--blue); outline-offset:2px}
+
+/* ---------------------------------------------------------------- language */
+/* one document, both languages; the toggle flips a root attribute so the choice
+   survives navigation and a saved-to-PDF copy prints whichever is showing */
+:root:not([data-lang="ko"]) .ko{display:none}
+:root[data-lang="ko"] .en{display:none}
+.langtoggle{display:inline-flex; border:1px solid var(--line); border-radius:3px; overflow:hidden;
+  background:var(--card); margin-top:18px}
+.langtoggle button{appearance:none; border:0; background:transparent; cursor:pointer;
+  font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); padding:7px 14px}
+.langtoggle button[aria-pressed="true"]{background:var(--navy); color:var(--chipfg)}
+.langtoggle button + button{border-left:1px solid var(--line)}
 @media (prefers-reduced-motion:no-preference){ html{scroll-behavior:smooth} }
 </style>
 
@@ -156,23 +169,36 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
   <div class="wrap">
     <div class="kicker">ECCV 2026 · Malmö · Workshop on Interactive Social Avatars</div>
     <h1>Why Is Human-Preference Optimization Difficult for Co-Speech Gesture Generation?</h1>
-    <p class="sub">A panel-by-panel script for the 140 × 100 cm poster, with the reading of every
+    <p class="sub en">A panel-by-panel script for the 140 × 100 cm poster, with the reading of every
       chart and the answers to the questions the charts invite. Everything here is checked against
       the camera-ready <em>main_short.tex</em>; where a number is not in the paper, it says so.</p>
 
-    <div class="spine">
+    <div class="spine en">
       <h3>The 30-second version, if someone only stops for a moment</h3>
       <p>One utterance admits many good gestures, but supervised training copies the single motion
         that happened to be recorded. Preference learning should be able to reward <em>any</em> motion
         people judge natural and well-timed. So we built a two-axis reward from pairwise human
         judgments, froze a strong pretrained generator, and steered only its initial noise.</p>
-      <p>The reward got much better on our development pairs — 71.9&nbsp;% → 89.6&nbsp;% agreement with
-        human raters. Then 51 fresh participants could not tell any tuned system from the untrained
+      <p>The reward reached 89.6&nbsp;% agreement with human raters on our development pairs. Then 51 fresh participants could not tell any tuned system from the untrained
         one, while 49 of those same 51 preferred real motion capture. So the study works; the tuning
         does not show.</p>
       <p><strong>The paper is the diagnosis of why.</strong> Two limits are coupled: the reward loses
         its fine ordering exactly on the outputs it was used to select, and the frozen generator does
         not demonstrably contain a distinctly better candidate to select.</p>
+    </div>
+
+<p class="sub ko">140 × 100 cm 포스터를 패널 순서대로 말하기 위한 스크립트입니다. 모든 차트를 어떻게 읽는지, 그리고 그 차트가 부르는 질문에 어떻게 답하는지까지 담았습니다. 전부 camera-ready <em>main_short.tex</em>와 대조했고, 논문에 없는 수치는 그렇다고 표시했습니다.</p>
+
+<div class="spine ko">
+  <h3>30초만 서 있다 가는 사람에게</h3>
+  <p>한 발화에 어울리는 gesture는 여러 가지인데, supervised 학습은 우연히 녹화된 하나를 베낍니다. Preference learning이라면 사람이 자연스럽고 speech와 잘 맞는다고 판단한 <em>어떤</em> 동작이든 보상할 수 있어야 하죠. 그래서 pairwise 사람 판단으로 two-axis reward를 만들고, 강력한 pretrained generator를 얼린 다음, initial noise만 조종했습니다.</p>
+  <p>Reward는 development pair에서 크게 좋아졌습니다 — 사람 평가자와의 일치율 71.9 % → 89.6 %. 그런데 새 참가자 51명은 어떤 튜닝된 시스템도 untrained baseline과 구분하지 못했고, <strong>바로 그 51명 중 49명은 실제 mocap을 골랐습니다.</strong> 실험은 멀쩡했고, 튜닝이 안 보였던 겁니다.</p>
+  <p><strong>논문은 그 이유를 진단합니다.</strong> 두 한계가 얽혀 있습니다. reward는 자기가 고른 출력 위에서 fine ranking 능력을 잃고, 얼린 generator는 고를 만한 확연히 더 나은 후보를 갖고 있지 않습니다.</p>
+</div>
+
+    <div class="langtoggle" role="group" aria-label="Language">
+      <button type="button" data-set="en" aria-pressed="true">English</button>
+      <button type="button" data-set="ko" aria-pressed="false">한국어</button>
     </div>
   </div>
 </div>
@@ -180,21 +206,22 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
 <div class="wrap cols">
   <nav class="rail" aria-label="Poster panels">
     <ol>
-      <li><a href="#p1"><span class="n">1</span> Many valid gestures</a></li>
-      <li><a href="#p2"><span class="n">2</span> Three boundaries</a></li>
-      <li><a href="#p3"><span class="n">3</span> Noise steering</a></li>
-      <li><a href="#p4"><span class="n">4</span> The reward</a></li>
-      <li><a href="#p5"><span class="n">5</span> Human evaluation</a></li>
-      <li><a href="#p6"><span class="n">6</span> What steering changes</a></li>
-      <li><a href="#p7"><span class="n">7</span> A reward exploit</a></li>
-      <li><a href="#p8"><span class="n">8</span> Attribution</a></li>
-      <li><a href="#p9"><span class="n">9</span> Design gates</a></li>
-      <li><a href="#check"><span class="n">✓</span> Paper cross-check</a></li>
-      <li><a href="#faq"><span class="n">?</span> Hard questions</a></li>
+      <li><a href="#p1"><span class="n">1</span><span class="en">Many valid gestures</span><span class="ko">여러 타당한 gesture</span></a></li>
+      <li><a href="#p2"><span class="n">2</span><span class="en">Three boundaries</span><span class="ko">세 개의 경계</span></a></li>
+      <li><a href="#p3"><span class="n">3</span><span class="en">Noise steering</span><span class="ko">Noise steering</span></a></li>
+      <li><a href="#p4"><span class="n">4</span><span class="en">The reward</span><span class="ko">Reward</span></a></li>
+      <li><a href="#p5"><span class="n">5</span><span class="en">Human evaluation</span><span class="ko">사람 평가</span></a></li>
+      <li><a href="#p6"><span class="n">6</span><span class="en">What steering changes</span><span class="ko">steering이 바꾸는 것</span></a></li>
+      <li><a href="#p7"><span class="n">7</span><span class="en">A reward exploit</span><span class="ko">Reward exploit</span></a></li>
+      <li><a href="#p8"><span class="n">8</span><span class="en">Attribution</span><span class="ko">원인 규명</span></a></li>
+      <li><a href="#p9"><span class="n">9</span><span class="en">Design gates</span><span class="ko">설계 게이트</span></a></li>
+      <li><a href="#check"><span class="n">✓</span><span class="en">Paper cross-check</span><span class="ko">논문 대조</span></a></li>
+      <li><a href="#faq"><span class="n">?</span><span class="en">Hard questions</span><span class="ko">어려운 질문</span></a></li>
     </ol>
   </nav>
 
   <main>
+<div class="en">
 
   <!-- ============================================================ 1 -->
   <section class="panel" id="p1">
@@ -300,12 +327,12 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
     <div class="tw"><table>
       <thead><tr><th>Row</th><th>What the percentage is a percentage of</th><th>Why it is on the poster</th></tr></thead>
       <tbody>
-        <tr><td>89.6 % vs 71.9 %</td><td>Share of the 709 <strong>development pairs</strong> the reward
-          ranks the way our human raters did — deployed reward vs. its predecessor.</td>
-          <td>The headline improvement. Note it is measured on data that guided the design.</td></tr>
-        <tr><td>100 % vs 62 %</td><td>Share of <strong>catalogued exploit pairs</strong> ranked correctly
-          — ordinary motion versus the reward-exploiting styles collected in the weight-space era.</td>
-          <td>The new reward covers the exploit class we already knew about.</td></tr>
+        <tr><td>89.6 %</td><td>Share of the 709 <strong>development pairs</strong> the reward ranks the
+          way our human raters did.</td>
+          <td>The headline number. Note it is measured on data that guided the design.</td></tr>
+        <tr><td>100 %</td><td>Share of <strong>catalogued exploit pairs</strong> ranked correctly —
+          ordinary motion versus the reward-exploiting styles collected in the weight-space era.</td>
+          <td>The reward covers the exploit class we already knew about.</td></tr>
         <tr><td>60.7 % (n = 1,413)</td><td>Share of <strong>participant choices</strong> in the main study
           that the reward agrees with, when it scores both clips of a shown pair.</td>
           <td>Real but only above-chance: local ordering, not a ranking guarantee.</td></tr>
@@ -713,7 +740,9 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
     <div class="tw"><table>
       <thead><tr><th>Poster claim</th><th>Paper location</th><th>Status</th></tr></thead>
       <tbody>
-        <tr><td>89.6 % vs 71.9 %</td><td>Abstract, Sec. 3.3, Table 2</td><td class="ok">verbatim</td></tr>
+        <tr><td>89.6 % (no predecessor shown)</td><td>Abstract, Sec. 3.3, Table 2 — the paper reports it as
+          89.6 % vs 71.9 % against the reward's predecessor; the poster keeps only the deployed number</td>
+          <td class="flag">trimmed for the poster</td></tr>
         <tr><td>λ = 0.3; λ = 1.0 did not transfer</td><td>Eq. 3 and Sec. 3.2</td><td class="ok">verbatim</td></tr>
         <tr><td>±25 frames = ±0.83 s</td><td>Sec. 3.2</td><td class="ok">verbatim</td></tr>
         <tr><td>49 of 51 preferred real motion</td><td>Sec. 4, Table 3 caption</td><td class="ok">verbatim</td></tr>
@@ -825,8 +854,346 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
     <code>poster_data.py</code>, each with its source; the clustering panel is regenerated by
     <code>extract_cluster_data.py</code>.
   </footer>
+</div>
+<div class="ko">
+
+  <section class="panel">
+    <div class="phead"><span class="chip">1</span><h2>한 발화, 여러 개의 타당한 gesture</h2></div>
+    <span class="cue">이렇게 말한다</span>
+    <p class="say">음성 녹음은 gesture의 정답표가 아닙니다. 같은 문장을 다르게, 그러나 똑같이 자연스럽게 말할 수 있죠. 그래서 우연히 캡처된 하나의 동작을 베끼도록 학습시키면 나머지 타당한 결과는 전부 보상받지 못합니다. Preference learning은 출구를 제안합니다 — 후보를 여러 개 만들고, 사람에게 어느 쪽이 좋은지 묻고, 사람이 고른 쪽으로 밀어 주는 것.</p>
+    <p class="say">저희 generator는 flow-matching 모델입니다. 샘플링은 무작위 initial noise에서 시작하고, 모델은 <em class="term">speech context</em>와 그 noise를 동작으로 매핑합니다. 저희는 generator를 완전히 얼리고 noise만 바꿉니다. 그러면 프로젝트 전체가 두 질문으로 줄어들고, 포스터의 나머지는 그 답입니다. <strong>① reward가 optimized candidate를 사람처럼 순위 매기는가?</strong> <strong>② 얼린 generator가 도달할 수 있는 출력 안에 더 나은 후보가 있기는 한가?</strong></p>
+    <span class="cue q">물어보면 — generator를 학습시키면 되지 않나요?</span>
+    <p class="body">패널 2가 그 답입니다. 두 번 시도했고, 그 두 실패가 얼린 boundary로 가게 만들었습니다.</p>
+  </section>
+
+  <section class="panel">
+    <div class="phead"><span class="chip">2</span><h2>세 개의 개입 경계</h2></div>
+    <span class="cue">이렇게 말한다</span>
+    <p class="say">얼린 boundary에서 시작한 게 아니라 거기서 끝난 겁니다. 처음엔 EMAGE에 preference update를 돌렸습니다. 이 모델은 이산 motion code로 생성하는데, 저희가 가진 checkpoint는 body part당 256개 중 19~23개만 쓰고 있었습니다. preference learner가 순위 매길 same-prompt 다양성이 거의 없었죠. 그래서 연속 generator로 옮겼습니다. 다음은 GestureLSM + Flow-GRPO로 generator의 velocity field를 업데이트했는데, KL anchor가 없으니 pretrained 분포를 벗어났습니다 — FGD가 8~15배 나빠지고, 학습된 reward는 오르는데도 동작이 과장되거나 반복적이 됐습니다. 그래서 가중치를 얼렸습니다. 세 번째 줄이 이 논문입니다.</p>
+    <span class="cue">표 읽는 법</span>
+    <p class="body">네 열입니다. <strong>system</strong>, <strong>무엇을 업데이트하는가</strong>(학습 중 실제로 바뀌는 대상), <strong>관측된 한계</strong>, 그리고 그 한계가 논증에서 하는 <strong>역할</strong>. 위에서 아래로, 우리가 손대는 범위가 좁아지는 순서로 읽으시면 됩니다.</p>
+    <div class="nums">
+      <div class="num"><b>19–23 / 256</b><span>EMAGE에서 body part당 실제로 쓰인 code 수</span></div>
+      <div class="num"><b>8–15×</b><span>KL anchor 없는 Flow-GRPO의 FGD 악화</span></div>
+      <div class="num"><b>noise only</b><span>최종 시스템이 바꿀 수 있는 유일한 것</span></div>
+    </div>
+    <details>
+      <summary>FGD가 뭐고, 왜 목표가 아닌가?</summary>
+      <p>Fréchet Gesture Distance — 생성 동작과 실제 동작의 분포 수준 거리입니다. 저희는 이걸 손상 감지용으로만 씁니다. audio를 아예 안 받기 때문에 <em>이 발화</em>에 맞는지를 잴 수 없습니다. 사람 평가에 올린 모든 시스템은 같은 사전 정의 distribution-damage gate를 통과했습니다. 이건 큰 drift를 배제할 뿐, 미묘한 지각적 실패를 배제하지 못합니다.</p>
+    </details>
+  </section>
+
+  <section class="panel">
+    <div class="phead"><span class="chip">3</span><h2>Initial-noise steering, 얼린 generator</h2></div>
+    <span class="cue">이렇게 말한다</span>
+    <p class="say">설정은 한 줄입니다. 후보 동작은 <em class="term">m<sub>i</sub> = G<sub>θ₀</sub>(c, w<sub>i</sub>)</em> — pretrained 가중치 θ₀에 얼어붙은 generator가 speech context <em class="term">c</em>와 initial noise <em class="term">w<sub>i</sub></em>를 받아 동작 <em class="term">i</em>를 냅니다. Reachable set <em class="term">M<sub>c</sub></em>는 noise가 모든 값을 훑을 때 그 generator가 그 speech에 대해 만들어 낼 수 있는 전부입니다.</p>
+    <p class="say">따라서 식 아래 문장이 따라옵니다. noise policy든 search든 그 집합 안에서 확률을 <strong>재분배</strong>할 수 있을 뿐, 바깥의 출력을 만들어 낼 수는 없습니다. 질문 ②가 수사적 질문이 아닌 이유가 바로 이것입니다.</p>
+    <span class="cue">패널에 적힌 실무 사항</span>
+    <ul class="tight body">
+      <li>20초 클립은 몇 초짜리 <strong>여섯 개의 chained window</strong>로 생성되고, 각 window가 자기 noise 블록을 씁니다. 완전한 후보 하나 = noise 블록 여섯 개.</li>
+      <li><strong>explicit-noise interface</strong>는 generator 내부의 난수 추출을 우리가 준 noise로 대체하고 나머지 디코더는 그대로 돌립니다 — stock 출력을 정확히 재현하는지 검증했습니다. 우리가 재는 것 중 배관 때문에 생긴 건 없습니다.</li>
+      <li><strong>catastrophic filter</strong> 하나 (비유한 값, 비현실적 움직임 범위, 장시간 정지, 극단적 jerk, 잘못된 회전). 걸린 후보는 버리지 않고 유지하되 모든 feasible 후보보다 아래로 순위를 매기며, 필터는 등급 점수를 주지 않습니다.</li>
+      <li><strong>two-axis reward</strong> 하나. 학습과 평가에 같은 구현을 씁니다.</li>
+      <li>noise policy는 화자별 녹음 95개로 학습하고, 테스트 녹음 15개는 전부 held out입니다.</li>
+    </ul>
+  </section>
+
+  <section class="panel">
+    <div class="phead"><span class="chip">4</span><h2>Two-axis, runtime reference-free reward</h2></div>
+    <span class="cue">이렇게 말한다</span>
+    <p class="say">이 reward는 생성된 동작 하나와 그 자신의 audio만 읽고 — 런타임에 녹화된 동작을 참조하지 않습니다 — 스칼라를 냅니다. <em class="term">R = z(R<sub>nat</sub>) + λ·z(R<sub>align</sub>)</em>, λ = 0.3. <strong>Naturalness</strong>는 motion-only입니다. kinematic feature에 대한 Bradley–Terry scorer와 DSTformer realism logit을 합쳤고, 후자는 clean-vs-corrupted pair로 pretrain한 뒤 저희가 직접 라벨링한 약 1,000개 preference pair로 fine-tune했습니다 — 709개는 들여다볼 수 있는 development set, 약 300개는 손대지 않고 보관. <strong>Alignment</strong>는 audio-conditioned입니다. 손목·팔꿈치 stroke event를 speech onset strength와 energy peak에 맞춰 보는데, lag-aware matching이 ±25 프레임(30 fps에서 ±0.83초)까지 허용됩니다. 즉 gesture가 박자를 정확히 맞출 필요 없이 앞서거나 늦어도 됩니다.</p>
+    <p class="say">두 축은 합치기 전에 표준화합니다. 스케일이 크다는 이유만으로 한쪽 head가 지배하지 않게요. λ를 1.0이 아니라 0.3으로 둔 이유는, 나머지 조건을 똑같이 두고 비교했을 때 alignment 가중치를 키우면 <strong>policy가 학습한 클립에서만</strong> reward가 오르고 처음 보는 speech로는 넘어가지 않았기 때문입니다.</p>
+
+    <span class="cue">Table 2 읽기 — 다섯 줄, 다섯 개의 서로 다른 집단</span>
+    <p class="body">사람들이 오독하는 표라, 캡션부터 말하는 게 좋습니다. <strong>다섯 항목 모두 퍼센트지만, 각각 다른 것의 퍼센트입니다.</strong> 학습 곡선의 단계가 아니라, 각 줄이 다른 종류의 비교에서 reward를 시험한 결과입니다.</p>
+    <div class="tw"><table>
+      <thead><tr><th>줄</th><th>무엇의 퍼센트인가</th><th>포스터에 있는 이유</th></tr></thead>
+      <tbody>
+        <tr><td>89.6 %</td><td>709개 <strong>development pair</strong> 중 reward가 사람 평가자와 같은 순위를 매긴 비율 — </td>
+          <td>대표 수치. 단, 설계를 이끈 데이터 위에서 잰 값입니다.</td></tr>
+        <tr><td>100 %</td><td><strong>목록화된 exploit pair</strong> — 평범한 동작 대 weight-space 시절 수집한 reward-exploiting 스타일 — 을 옳게 순위 매긴 비율.</td>
+          <td>이미 알고 있던 exploit 종류는 이 reward가 덮습니다.</td></tr>
+        <tr><td>60.7 % (n = 1,413)</td><td>본 실험에서 reward가 두 클립을 채점했을 때 <strong>참가자의 선택</strong>과 일치한 비율.</td>
+          <td>실재하지만 above-chance 수준. 국소적 순서지 순위 보장이 아닙니다.</td></tr>
+        <tr><td>≈ 53 % (n = 360)</td><td>같은 일치율을, <strong>baseline과 가장 가까운</strong> 두 시스템의 pair로 한정했을 때.</td>
+          <td>거의 동전 던지기. optimization이 실제로 작동하는 fine-ranking 구간이 여기입니다.</td></tr>
+        <tr><td>65 % variance</td><td>20개 클립 × 후보 24개에서 naturalness 점수의 분산 중 <strong>클립 정체성이 설명하는 비율</strong>.</td>
+          <td>raw 점수는 전역 효용이 아닙니다. 어느 클립이냐가 점수를 지배합니다.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="body"><strong>규칙을 소리 내어 말하세요.</strong> reward는 <em>같은</em> speech prompt로 생성된 후보들끼리 순위 매길 때, 또는 그 같은 prompt의 baseline과 비교할 때만 씁니다. reward가 진짜 국소 신호를 담고 있으면서도 optimization이 요구하는 fine ranking에서는 실패할 수 있습니다.</p>
+  </section>
+
+  <section class="panel">
+    <div class="phead"><span class="chip">5</span><h2>사람 평가: 신뢰할 만한 선호 이득 없음</h2></div>
+    <span class="cue">이렇게 말한다</span>
+    <p class="say">목표가 시각적 자연스러움 + 이 speech와의 적합성이므로, 사람의 판단이 1차 시험입니다. 모든 비교는 같은 baseline을 씁니다 — 학습되지 않은 화자별 GestureLSM checkpoint. Prolific으로 모집한 참가자가 같은 audio를 쓰는 좌우 뒤바뀐 20초 아바타 영상 두 개를 보고 하나를 골랐습니다.</p>
+
+    <span class="cue">막대 차트 읽는 법</span>
+    <p class="body">비교 하나당 막대 하나입니다. 막대 길이는 <strong>그 시스템을 untrained baseline보다 선호한 참가자 비율</strong>, 50 %의 세로선이 무승부, 수염은 95 % 구간입니다.</p>
+    <ul class="tight body">
+      <li><strong>초록 96 %</strong> — 대조군. 실제 mocap 대 같은 baseline, 51명 중 49명. 이 실험이 차이를 감지할 수 있다는 확인입니다.</li>
+      <li><strong>주황 59 % / 48 % / 49 %</strong> — 시험한 세 policy. 구간이 전부 50 % 선을 지납니다.</li>
+    </ul>
+    <p class="body">꽂히는 문장: <em>"실제 동작을 압도적으로 고른 바로 그 51명이, 우리 시스템은 우연 이상으로 고르지 못했습니다."</em> 그러니 이 null은 실험의 실패가 아닙니다.</p>
+    <div class="nums">
+      <div class="num"><b>49 / 51</b><span>실제 mocap을 선호 — 결과를 미리 아는 대조군</span></div>
+      <div class="num"><b>51 + 30</b><span>충분히 설계된 두 실험의 참가자 수</span></div>
+      <div class="num"><b>+0.98</b><span>학습 없는 best-of-32가 올린 reward, held-out prompt 15개 전부</span></div>
+    </div>
+
+    <div class="deep">
+      <p class="lede">Table 3의 통계량</p>
+      <h3>Cohen's <i>d</i> 읽는 법</h3>
+      <p class="body"><strong>정의.</strong> 참가자 1인이 점수 하나를 냅니다 — 그 사람이 이 비교에서 던진 투표들의 평균. 우리 쪽으로 기울면 양수, baseline 쪽이면 음수, 반반이면 0입니다. 이걸 참가자끼리 평균 내면 <em class="term">mean preference</em>. 그런데 이 눈금은 우리 투표 인터페이스 전용이라 남의 연구와 비교할 수 없습니다. <strong>그 참가자 점수들의 standard deviation</strong>으로 나누면 눈금이 사라집니다. 그 비율이 Cohen's <em>d</em>입니다.</p>
+      <p class="body" style="font-size:18px"><em class="term">d</em> = mean preference ÷ 참가자 간 SD. 뜻은 <em>평균이 얼마나 기울었는지를, 참가자들이 서로 얼마나 엇갈리는지를 단위로 재서</em> 말한 것입니다.</p>
+      <p class="body"><strong>범위.</strong> 형식적으로는 −∞ ~ +∞. 부호가 방향입니다(+ = 우리 시스템). 관례는 0.2 작음, 0.5 중간, 0.8 큼 — 관례이지 법칙이 아닙니다.</p>
+      <p class="body"><strong>사람 수로 읽기.</strong> 참가자 점수가 대략 정규분포라면, 우리 쪽으로 기운 사람의 비율은 Φ(<em>d</em>)입니다. 논문 4.1절이 직접 쓰는 변환이고, 포스터 막대가 그리는 값입니다:</p>
+      <div class="tw"><table>
+        <thead><tr><th>Cohen's <i>d</i></th><th>우리 쪽으로 기운 비율</th><th>어디에 나오나</th></tr></thead>
+        <tbody>
+          <tr><td class="num-c">−0.06</td><td class="num-c">48 %</td><td>winner imitation, K = 32 (N = 51)</td></tr>
+          <tr><td class="num-c">−0.03</td><td class="num-c">49 %</td><td>winner imitation, K = 16 (N = 51)</td></tr>
+          <tr><td class="num-c">0.00</td><td class="num-c">50 %</td><td>무승부</td></tr>
+          <tr><td class="num-c">+0.23</td><td class="num-c">59 %</td><td>largest-search imitation, K = 64 (N = 30)</td></tr>
+          <tr><td class="num-c">+0.50</td><td class="num-c">69 %</td><td>관례상 "중간"</td></tr>
+          <tr><td class="num-c">+0.80</td><td class="num-c">79 %</td><td>관례상 "큼"</td></tr>
+          <tr><td class="num-c">≈ +1.75</td><td class="num-c">96 %</td><td>실제 mocap이 여기쯤 (49/51)</td></tr>
+        </tbody>
+      </table></div>
+      <p class="body"><strong>암산 요령.</strong> d = 0 근처에서 Φ의 기울기는 1/√(2π) = 0.399 ≈ 0.4입니다. 그래서 <strong>비율 ≈ 50 % + 40 × d (퍼센트포인트)</strong>. d = −0.06이면 47.6 %, d = +0.23이면 59.2 %. d가 0.3을 넘으면 어긋나기 시작합니다.</p>
+      <p class="body"><strong>피해야 할 함정.</strong> <em>d</em>는 몇 명에게 물었는지를 전혀 담지 않습니다. 30명에서 나온 +0.23과 3,000명에서 나온 +0.23은 같은 숫자, 전혀 다른 증거입니다. 저희 +0.23은 30명이라 판정 불가한 점추정입니다. −0.03과 −0.06은 실용적으로 정확히 0입니다.</p>
+    </div>
+
+    <div class="deep">
+      <p class="lede">포스터에서 뺀 통계량</p>
+      <h3><i>p</i>-value — 왜 표에서 뺐는가</h3>
+      <p class="body"><strong>이름과 정의.</strong> <em class="term">p-value</em>는 <strong>귀무가설(null hypothesis)이 참이라고 가정했을 때</strong>, 관측된 것만큼 또는 그보다 극단적인 결과가 나올 확률입니다. 여기서 귀무가설은 "참가자에게 이 policy와 baseline 사이에 체계적 선호가 없다"이고, 검정은 논문 4절의 <strong>참가자 점수에 대한 two-sided sign test</strong>입니다. 흔히 말하는 0.05 선은 <em class="term">유의수준 α</em>이고, "statistically significant"는 곧 p &lt; α라는 뜻입니다.</p>
+      <p class="body"><strong>신뢰도가 아닙니다.</strong> p = 0.878은 "87.8 % 확신"이 아닙니다. 논리 방향이 반대입니다 — <strong>작은</strong> p는 귀무가설로 설명이 안 된다는 뜻이라 차이의 증거이고, <strong>큰</strong> p는 "차이 없음"이 예측하는 그대로라는 뜻입니다.</p>
+      <p class="body"><strong>p = 1.000의 정체.</strong> sign test는 참가자가 어느 쪽으로 기울었는지를 셉니다. K = 16에서는 <strong>우리 쪽 23명, baseline 쪽 23명</strong> — 명수 차이 0입니다. "0명 차이 이상 벌어질 확률"은 모든 경우를 포함하니 1이 됩니다. 그게 전부입니다. 매번 이렇게 나온다는 뜻이 아닙니다 — 정확히 23:23이 나올 확률은 약 12 %뿐입니다.</p>
+      <div class="tw"><table>
+        <thead><tr><th>비교</th><th>참가자 +/−</th><th>sign-test p</th></tr></thead>
+        <tbody>
+          <tr><td>K = 16 vs baseline</td><td class="num-c">23 + / 23 −</td><td class="num-c">1.000</td></tr>
+          <tr><td>K = 32 vs baseline</td><td class="num-c">22 + / 20 −</td><td class="num-c">0.878</td></tr>
+          <tr><td>실제 mocap vs baseline</td><td class="num-c">49 + / 2 −</td><td class="num-c">&lt; 0.001</td></tr>
+        </tbody>
+      </table></div>
+      <p class="body"><strong>얼마나 커야 큰가.</strong> 귀무가설 하에서 p는 0~1 균등분포이므로 빈도로 읽으면 됩니다. p = 0.878은 "두 시스템이 같아도 8번 중 7번은 이 정도 벌어진다", p = 0.345는 "3번 중 1번". 둘을 "다 크다"로 묶으면 사실 하나를 가립니다 — K = 64는 셋 중 점추정도 가장 크고 p도 가장 작습니다. 정직한 표현은 <strong>"셋 다 p &lt; 0.05에 못 미친다"</strong>입니다.</p>
+      <p class="body"><strong>검정력은 하나에만 해당됩니다.</strong> K = 16 / K = 32는 N = 51로 pilot 효과크기에 89~99 % 검정력을 확보했고 23/23, 22/20이 나왔습니다 — 표본을 늘려도 그 pilot 효과가 "드러나는" 게 아니라, 실재하지 않았다는 측정입니다. K = 64만 N = 30이라 underpowered이고(80 % 검정력이면 t-test 기준 약 150명 필요 — 논문에 없는 저희 계산), 여기서만 "판단 불가"가 맞습니다.</p>
+      <p class="body"><strong>그래서 포스터에서는 뺐습니다.</strong> p = 1.000은 말로 옮기는 순간 오해를 부릅니다. 대신 참가자 갈림(23/23, 22/20, 17/11)을 넣었습니다 — 통계 어휘 없이 읽히고, 대조군 49/2와 나란히 놓이면 결론이 그냥 보입니다. p는 논문 Table 3에 그대로 있으니, 물어보는 사람에게는 거기를 가리키면 됩니다.</p>
+      <p class="body"><strong>큰 p가 허가하지 않는 것.</strong> "두 시스템이 동등하다"는 주장입니다. 그건 사전에 마진을 정한 동등성 검정(TOST)이 필요한데 저희는 하지 않았습니다. 논문이 "we do not claim equivalence"라고 쓰는 이유입니다.</p>
+    </div>
+
+    <details>
+      <summary>"59 %면 이긴 것 아닌가요?"</summary>
+      <p>N = 30, p = 0.345, 구간이 무승부선을 지납니다 — 논문은 이걸 inconclusive라고 부릅니다. 30명짜리 실험이 해상할 수 없는 점추정이고, 약 150명이 필요합니다. 셋 중 "underpowered"가 맞는 말인 유일한 비교이기도 합니다. 51명짜리 두 비교는 pilot 효과에 맞춰 설계돼 89~99 % 검정력을 갖고도 23/23, 22/20이 나왔습니다.</p>
+    </details>
+    <details>
+      <summary>"policy 학습이 잘못된 것 아닌가요?"</summary>
+      <p>그걸 제거하는 게 학습 없는 대조 실험입니다. <strong>best-of-32</strong>는 파라미터를 하나도 바꾸지 않습니다 — held-out prompt마다 무작위 unit-scale noise 32개를 디코드해서 reward가 가장 높은 feasible 후보를 남길 뿐입니다. 그런데도 within-prompt reward를 +0.98 올리고, held-out prompt 15개 <strong>전부</strong>에서 그렇게 하고도 신뢰할 만한 사람 선호를 못 얻었습니다. 즉 정책 학습의 artifact를 탓할 수 없는 상황에서도 reward를 더 세게 최대화하는 것만으로는 부족합니다.</p>
+    </details>
+    <details>
+      <summary>표 아래 필름스트립이 뭔가요?</summary>
+      <p>실제 실험 자극 하나입니다. 20초, 같은 audio, 3초마다 한 프레임 — 실제 동작, untrained baseline, 그리고 K = 64인 우리 것. 참가자가 판단해야 했던 차이가 얼마나 작은지 직접 보시라고 넣었습니다. 전체 영상은 QR 뒤에 있습니다.</p>
+    </details>
+  </section>
+
+
+  <section class="panel">
+    <div class="phead"><span class="chip">6</span><h2>Initial-noise steering이 실제로 바꾸는 것</h2></div>
+    <span class="cue">이렇게 말한다</span>
+    <p class="say">원인 규명은 그 action space가 애초에 무엇을 바꿀 수 있었는지에서 출발해야 합니다. initial noise를 조종해 봐야 한 동작의 사소한 변주만 나온다면, 완벽한 reward라도 고를 게 없습니다. 그래서 이 패널은 서로 다른 세 가지를 잽니다 — 후보가 뚜렷이 다른 종류로 나뉘는가, 집어넣은 차이가 얼마나 오래 살아남는가, 학습된 reward를 올릴 수는 있는가.</p>
+    <p class="say">논문이 고집하는 어휘부터. <em class="term">coarse motion pattern</em>은 어느 팔다리가 움직이고, 대략 어느 방향이며, 수 초에 걸쳐 stroke·hold·retraction이 어떤 순서로 오는가입니다. <em class="term">execution detail</em>은 같은 계획을 더 크게, 더 작게, 조금 이르게 수행하는 것이고요. 질문은 steering이 <strong>새로운 pattern</strong>을 사는가, 아니면 <strong>새로운 execution</strong>만 사는가입니다.</p>
+
+    <div class="deep">
+      <p class="lede">패널 (a) · 가장 어려운 것</p>
+      <h3>클러스터링 검사, 그리고 그걸 통과한 게 왜 아무 증거도 아닌가</h3>
+      <ol class="steps body">
+        <li><strong>무엇을 기대했나.</strong> 얼린 generator가 한 발화에 대해 정말로 다른 <em>종류</em>의 gesture를 제공한다면, 그중 고르는 일이 의미가 있습니다. "종류"라면 어떤 표현 공간에서 후보들이 별개의 덩어리로 뭉쳐 보여야 합니다.</li>
+        <li><strong>무엇을 돌렸나.</strong> 20개 speech clip 각각에서 무작위 후보 24개를 뽑아 512차원 임베딩으로 바꾸고, 정규화한 뒤 PCA로 10차원으로 줄이고, k = 2, 3, 4로 k-means를 돌려 <em class="term">silhouette</em>(분할이 얼마나 깔끔한지 재는 0~1 점수)이 가장 좋은 k를 채택했습니다. 그 점수가 0.5를 넘으면 "구분되는 그룹 있음"이라고 선언합니다. 20개 클립 전부 넘었습니다. 순진하게 읽으면 <em>generator에 구분되는 행동 메뉴가 있다.</em></li>
+        <li><strong>그 독법이 왜 위험한가.</strong> k-means는 <em>언제나</em> k개를 만들어 냅니다 — 탐지기가 아니라 분할 알고리즘이니까요. silhouette은 그렇게 나온 분할이 얼마나 조밀하고 잘 떨어져 있는지를 잴 뿐, <strong>원래 별개의 덩어리가 있었는지는 재지 않습니다.</strong> 10차원에 점 24개뿐이면 완전히 매끄러운 구름도 깔끔해 보이게 잘립니다.</li>
+        <li><strong>대조군 — "그룹 없는 데이터"가 이겁니다.</strong> 클립마다 그 클립의 임베딩 24개에 <em>가우시안 하나</em>를 평균과 전체 공분산까지 맞춰 피팅합니다. 그러면 가짜 구름이 실제 구름과 크기·모양·기울기가 같아집니다. 가우시안 하나는 정의상 덩어리 하나입니다 — mode도, 그룹도, 찾을 것도 없습니다. 거기서 점 24개를 새로 뽑아 <em>동일한</em> 파이프라인을 돌립니다.</li>
+        <li><strong>빨간 줄이 뜻하는 것.</strong> 대조군 구름 하나만으로는 아무것도 증명하지 못합니다 — 운 좋은 한 번일 수 있으니까요. 그래서 대조군 전체를 <strong>600번</strong>(클립 20개 × draw 30번) 반복했고, 검사는 그중 <strong>598번</strong>에서 "separate groups"를 찾아냈습니다. 패널 아래 줄은 그 600개 중 하나입니다.</li>
+        <li><strong>세는 방식을 정확히.</strong> 그 600개는 <em>전부</em> 그룹이 없습니다 — 설계상 100 %입니다. 99.7 %는 <em>검사가 그것들에 대해 틀린 비율</em>입니다. 점수도 실제 데이터와 거의 같았습니다 — 그룹 없는 쪽 평균 silhouette 0.614, 우리 후보 0.612. 비율이 아니라 개수로 말하세요: <em>"그룹이 하나도 없는 데이터셋 600개를 만들었더니, 검사가 598개에서 그룹을 찾아냈습니다."</em></li>
+        <li><strong>따라서.</strong> 이 표본 크기에서 그 gate는 판별력이 없습니다. 그룹 없는 데이터에도 우리 것에도 똑같이 "그룹 있음"이라고 답하므로, "20개 중 20개가 multi-mode"라는 사실은 구분되는 행동에 대해 아무 증거가 되지 못합니다. 다만 이게 <em>증명하지 않는 것</em>도 분명히 하세요 — 후보가 하나의 매끄러운 덩어리라는 증명은 아닙니다. <strong>이 검사로는 알 수 없다</strong>는 것이고, 그래서 근거로 세지 않겠다는 것입니다.</li>
+      </ol>
+      <p class="body" style="margin-top:14px"><strong>같은 주장에 대한 두 번째 독립적 근거.</strong> 그룹을 액면 그대로 받아들여도, 클러스터 소속이 설명하는 reward 분산은 약 5 %뿐이고 — 이 그룹 수와 점 개수에서의 산술적 우연 하한보다 낮습니다 — 20개 클립 중 자기 permutation 임계를 넘은 것은 0개입니다. 그룹이 품질을 예측하지도 못한다는 뜻입니다.</p>
+      <p class="body"><strong>그림 읽는 법.</strong> 위 줄: 한 발화에 대한 우리 후보 24개를 주된 변동 축을 따라 늘어놓고 k-means가 배정한 그룹으로 색칠한 것. 점수 0.58 → "separate groups". 아래 줄: 그룹 없는 구름에서 뽑은 24점을 같은 파이프라인으로 처리한 것. 점수 0.73 → "separate groups". <strong>색깔은 검사의 답이지 데이터에 원래 있던 것이 아닙니다.</strong> 여기서 1차원 그림이 정직한 이유는, 후보들이 제1주성분 방향으로 제2주성분보다 약 20배 더 퍼져 있어서 "클러스터"라는 게 하나의 번짐을 잘라 놓은 것에 불과하기 때문입니다.</p>
+      <p class="body"><strong>소리 내어 말할 한 줄:</strong> <em>"우리 클러스터링은 '4개 그룹'이라고 했습니다. 그룹이 없도록 만든 대조군에도 똑같이 답했고요. 검사가 둘을 구분하지 못하니, 저희는 이걸 증거로 세지 않습니다."</em></p>
+    </div>
+
+    <div class="deep">
+      <p class="lede">패널 (b) + 그 아래 필름스트립</p>
+      <h3>다른 시작 자세는 잊힌다</h3>
+      <p class="body"><em class="term">opening seed</em>는 클립 시작에서 generator를 prime하는 짧은 시작 자세 시퀀스입니다 — GestureLSM이 EMAGE 프로토콜에서 물려받은 입력이죠. 이걸 바꾸면 클립이 다르게 시작합니다.</p>
+      <p class="body">서로 다른 prime 세 개를 각각 원래 것과 비교하되 <em>initial noise는 동일</em>하게 두어, 바뀐 것이 시작뿐이 되게 했습니다. 각 곡선은 두 동작 사이의 평균 거리 — 프레임당·관절당, 단위는 미터 — 를 20초 클립의 여섯 generation window에 걸쳐 잰 것입니다. window 1은 prime된 프레임 자체를 제외하므로, 그려진 것은 언제나 <em>생성된</em> 동작이지 우리가 집어넣은 prime이 아닙니다.</p>
+      <p class="body">곡선 셋은 무작위 셋이 아니라 대안적 시작의 세 <em>종류</em>입니다. 그래서 정확히 셋인 것입니다:</p>
+      <div class="tw"><table>
+        <thead><tr><th>곡선</th><th>무엇으로 prime했나</th><th>왜 이것인가</th></tr></thead>
+        <tbody>
+          <tr><td>generated-tail seed</td>
+            <td><strong>generator 자신이 만든 동작의 끝부분</strong>. 다른 데 쓰지 않은 noise로 디코드한 것.</td>
+            <td>설계상 자기 정합적이라, 모델이 "이 시작은 내가 도달 못 하는 자세다"라고 할 수 없습니다. 셋 중 초기 차이도 가장 큽니다.</td></tr>
+          <tr><td>retrieved-clip seed</td>
+            <td><strong>다른 녹음의 실제 시작 자세</strong>. 시작 자세 공간에서 이 클립과 가장 가까운 다른 클립의 것.</td>
+            <td>진짜 사람의 시작이지만 다른 발화의 것 — 그럴듯한 동작, 틀린 맥락.</td></tr>
+          <tr><td>stillest-clip seed</td>
+            <td><strong>풀에서 가장 조용한 실제 시작 자세</strong>. 거의 정지 상태의 자세.</td>
+            <td>극단 케이스. 어떤 prime이든 클립의 진행 방향을 바꿀 수 있다면, 정지에서 출발하는 것이 가장 그래야 합니다.</td></tr>
+        </tbody>
+      </table></div>
+      <ul class="tight body">
+        <li>window 1: 약 <strong>0.06~0.10 m</strong> 차이, 즉 관절당 6~10 cm. 눈에 확 보입니다.</li>
+        <li>window 4: 약 <strong>0.01 m</strong>. 이미 execution detail 수준.</li>
+        <li>window 6: 약 <strong>0.002 m</strong>. 사라졌습니다.</li>
+      </ul>
+      <p class="body">공유된 speech conditioning이 몇 window 안에 동작을 같은 계획으로 끌어당깁니다. 아래 필름스트립이 같은 사실의 그림판입니다 — 의도적으로 다른 시작 자세 셋, 같은 speech, 0~3초에는 확연히 다르고 8초에는 수렴합니다. 그 세 "OPENING POSE" 줄이 바로 위 표의 세 조건입니다.</p>
+      <p class="body">bullet에 있는 동반 수치는 더 강한 버전의 시험입니다. 시작을 바꾸는 대신, denoising 시퀀스를 이르게·중간에·늦게 끊고 그 반쯤 형성된 동작에서 새 난수로 재시작합니다. 그래도 출력은 평범한 fresh sample 퍼짐의 <strong>최대 0.36배</strong>에 그칩니다. 생성 후반에 집어넣은 변이도 처음에 집어넣은 변이보다 더 오래 살아남지 못합니다.</p>
+    </div>
+
+    <div class="deep">
+      <p class="lede">패널 (c)</p>
+      <h3>Noise의 크기 대 방향</h3>
+      <p class="body">initial noise는 <strong>벡터</strong>입니다 — generator가 동작으로 바꾸는 긴 숫자 목록이죠. 벡터를 바꾸는 독립적인 방법은 정확히 둘이고, 화살 비유가 소리 내어 말하기 좋습니다. <strong>화살이 얼마나 긴가</strong>(크기·magnitude·norm — 포스터는 "size"라고 씁니다)와 <strong>어디를 가리키는가</strong>(direction). 두 자유도를 따로 시험했습니다.</p>
+      <ul class="tight body">
+        <li><strong>크기만</strong> — policy가 noise를 늘이거나 줄일 수는 있지만 방향은 못 바꿉니다. generator의 기본 길이로 수렴했고 baseline 동작을 그대로 재현했습니다. 막대가 정확히 0입니다. 이 자유도는 쓸모 있는 것을 하나도 담고 있지 않습니다.</li>
+        <li><strong>방향만</strong> — 길이는 기본값에 고정하고 방향만 바꿉니다. 학습에 쓰지 않은 speech 클립에서 학습된 reward를 <strong>+0.60</strong> 올렸습니다.</li>
+      </ul>
+      <p class="body">즉 쓸 수 있는 자유도는 noise의 크기가 아니라 방향입니다 — 탐색 공간이 반지름이 아니라 사실상 구의 표면인 셈이죠. 그리고 같은 호흡에 단서를 붙이세요. <em>학습된 reward를 올리는 것은 사람의 선호를 얻는 것과 다릅니다</em> — 그건 패널 5에서 시험되고, 따라오지 않습니다.</p>
+    </div>
+
+    <span class="cue q">물어보면 — 그래서 steering으로 무엇을 얻나요?</span>
+    <p class="body">reward와 관련된 <em>국소적</em> 변이는 확실히 얻습니다. 뚜렷이 더 나은 coarse pattern은 확인되지 않습니다. 대표적인 네 보드를 블라인드로 검토했을 때 — 각 보드는 한 prompt의 후보 영상을 나란히 놓은 것입니다 — 후보들은 같은 coarse pattern에 사소한 변주로 지각되었습니다.</p>
+  </section>
+
+  <section class="panel">
+    <div class="phead"><span class="chip">7</span><h2>Reward exploit이 어떻게 생겼는가</h2></div>
+    <span class="cue">이렇게 말한다</span>
+    <p class="say">이 논문이 필요한 이유가 되는 실패 양상입니다. reward는 −127.8에서 −107.0으로 오르는데 동작은 눈에 띄게 <em>나빠집니다</em> — 뻣뻣하고 과도하게 뻗은 팔. weight-space 시절에서 나온 것으로, 그때는 가드가 붙은 composite reward가 이미 목록화한 catastrophic 출력은 막았지만, 그 손수 만든 검사 바깥에서 새로운 고득점 artifact가 곧바로 나타났습니다.</p>
+    <p class="say">이 포스터에서의 요점: 그게 optimizer가 사는 바로 그 fine-ranking 구간이고, development set 정확도가 증거이기를 멈추는 지점입니다.</p>
+  </section>
+
+  <section class="panel">
+    <div class="phead"><span class="chip">8</span><h2>근거 가중 원인 규명</h2></div>
+    <span class="cue">이렇게 말한다</span>
+    <p class="say">하나의 원인으로 모든 관측이 설명되지 않으므로, 후보 넷을 각자가 가진 직접 근거의 양으로 저울질했습니다. 가장 강한 지지를 받는 둘은 선택 이후 reward의 유효성과 generator가 도달 가능한 출력이고, 이 둘이 <strong>함께</strong> 실패합니다. 그래서 고장 난 optimizer가 아니라 <em>얽힌 병목</em>이라고 부릅니다.</p>
+    <div class="tw"><table>
+      <thead><tr><th>기여 요인</th><th>근거</th><th>범위</th></tr></thead>
+      <tbody>
+        <tr><td>Reward validity</td><td>development 판별력은 좋아지지만, optimized 출력에서 일치율이 약해지고 best-of-32의 이득이 사람 선호로 넘어가지 않습니다.</td>
+          <td>강함. 함의: reward를 current-policy 후보 위에서 검증하라.</td></tr>
+        <tr><td>Reachable outputs</td><td>패널 6의 세 측정 — 일시적이거나 국소적인 변이일 뿐, 안정적으로 구분되는 coarse pattern은 없음.</td>
+          <td>강함 — 단, 이 checkpoint에 한해서.</td></tr>
+        <tr><td>Optimization</td><td>직접 가중치 업데이트는 drift하고, 한 online noise policy는 맥락 의존적 행동을 학습하지 못했습니다. 하지만 학습 없는 선택도 실패합니다.</td>
+          <td>기여 요인이지 유일한 원인은 아님.</td></tr>
+        <tr><td>Evaluation</td><td>본 실험은 실제 사람 동작을 감지했고(49/51) 그럼에도 policy 이득은 없었습니다.</td><td>유일한 원인 아님. 미묘한 효과에는 여전히 더 큰 표본이 필요.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="panel">
+    <div class="phead"><span class="chip">9</span><h2>설계 게이트, 그리고 다음</h2></div>
+    <span class="cue">이렇게 말한다</span>
+    <p class="say">기여는 벤치마크를 이기는 방법이 아니라, 파이프라인이 성공한 것처럼 보이면서도 사람의 판단을 개선하지 못하는 과정을 끝에서 끝까지 진단한 것입니다. 커뮤니티에 건넬 수 있는 건 post-training 예산을 쓰기 전에 확인할 게이트들입니다.</p>
+    <ul class="tight body">
+      <li><strong>reward를 검증하라</strong> — 현재 optimizer가 만들어 낸 신선한 same-prompt 후보 위에서. 이전 reward 버전이 선택한 후보까지 포함해서.</li>
+      <li><strong>generator가 지속적이고 지각적으로 구분되는 대안을 노출하는지 확인하라</strong> — 선택을 최적화하기 전에. 그 행동이 없다면 generator를 넓히십시오. 같은 고정 사상 위에서 선택 압력을 높이지 마시고요.</li>
+      <li><strong>효과를 감지할 만큼 큰 사람 실험을 하라</strong> — 각 실험에 결과를 예측할 수 있는 비교(실제 동작 대 baseline)를 넣어, 그 실험이 뭔가를 감지할 수 있다는 것부터 증명하십시오.</li>
+      <li><strong>다음: 근거의 폭을 넓히기</strong> — 같은 통제 실험을 더 많은 화자와 더 많은 generator에서, 각각에 대해 reward를 다시 검증하며.</li>
+    </ul>
+    <p class="body" style="margin-top:12px">외워 둘 마무리 문장: <em>학습된 점수의 상승이 지각적 개선의 증거가 되려면, 선택 이후에도 reward가 유효해야 하고 generator 안에 고를 만한 의미 있는 대안이 있어야 합니다.</em></p>
+  </section>
+
+  <section class="panel">
+    <div class="phead"><span class="chip">✓</span><h2>Camera-ready와 대조</h2></div>
+    <p class="body">포스터에 인용된 모든 것과 그것이 논문 어디에 있는지입니다. 세 개의 차트 값은 workshop 논문이 <strong>말로는 쓰지만 숫자로 인쇄하지는 않은</strong> 확장판의 측정치입니다 — 표에 없는 숫자를 표에 있다고 말하는 일이 없도록 표시해 뒀습니다.</p>
+    <div class="tw"><table>
+      <thead><tr><th>포스터의 주장</th><th>논문 위치</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>89.6 %</td><td>초록, 3.3절, Table 2</td><td class="ok">그대로</td></tr>
+        <tr><td>λ = 0.3; λ = 1.0은 전이 실패</td><td>식 (3), 3.2절</td><td class="ok">그대로</td></tr>
+        <tr><td>±25 프레임 = ±0.83 초</td><td>3.2절</td><td class="ok">그대로</td></tr>
+        <tr><td>51명 중 49명이 실제 동작 선호</td><td>4절, Table 3 캡션</td><td class="ok">그대로</td></tr>
+        <tr><td>96 / 59 / 48 / 49 % 막대</td><td>Table 3의 <em>d</em>를 Φ(<em>d</em>)로 — 4.1절이 쓰는 근사</td><td class="ok">유도, 명시함</td></tr>
+        <tr><td>참가자 갈림 23/23, 22/20, 17/11</td><td>논문에는 없음 — p값이 나온 그 실험 기록(userstudy_scale01_report.md §2, userstudy_pilot05_report.md)</td><td class="flag">실험 기록</td></tr>
+        <tr><td>best-of-32: prompt 15개 전부 +0.98</td><td>4.2절</td><td class="ok">그대로</td></tr>
+        <tr><td>그룹 없는 600 draw 중 99.7 %</td><td>5.1절</td><td class="ok">그대로</td></tr>
+        <tr><td>패널 문자 (a)(b)(c)</td><td>포스터는 논문 Fig. 4의 네 패널 중 셋을 그립니다. 논문의 (c)인 mid-decode branch spread는 그리는 대신 bullet로 인용했으므로, 포스터의 (c)는 논문의 (d)입니다</td><td class="flag">포스터용 재부여</td></tr>
+        <tr><td>패널의 silhouette 0.58 / 0.73</td><td>논문에 인쇄되지 않음 — 5.1절 뒤의 B-6 대조 실행에서</td><td class="flag">확장판</td></tr>
+        <tr><td>seed-decay 곡선 (0.10 m → 0.002 m)</td><td>5.1절이 말로 씀: 차이가 "attenuate within a few generation windows"</td><td class="flag">확장판</td></tr>
+        <tr><td>세 seed 조건의 이름</td><td>논문에 이름이 없음 — 5.1절은 "changing the opening seed"라고만 씁니다. 세 조건은 그 뒤의 C-1 seed-swap 격자</td><td class="flag">확장판</td></tr>
+        <tr><td>direction-only +0.60</td><td>5.1절이 말로 씀: direction-only가 "did raise the learned reward"</td><td class="flag">확장판 (+0.597)</td></tr>
+        <tr><td>branch spread ≤ 0.36×</td><td>5.1절</td><td class="ok">그대로</td></tr>
+        <tr><td>256개 중 19–23개; FGD 8–15배</td><td>2.1절, Table 1</td><td class="ok">그대로</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><b>표현 하나.</b> 논문 5.1절은 두 knob를 noise의 <em>size</em>와 <em>direction</em>이라고 부릅니다. 초기 도판은 "radius"라고 썼었는데, 포스터는 이제 전부 <strong>size</strong>로 통일해 논문과 일치합니다.</div>
+    <div class="note"><b>패널 6을 과잉 주장하지 마세요.</b> 논문 자신의 한계 문장은, 이 모든 것이 한 명의 화자, 하나의 checkpoint, 시험한 prompt들, 그리고 우리가 훑은 범위에서 측정되었다는 것입니다. 누가 밀어붙이면 패널 9의 네 번째 항목으로 받으시면 됩니다.</div>
+  </section>
+
+  <section class="panel">
+    <div class="phead"><span class="chip">?</span><h2>실제로 받게 될 질문</h2></div>
+    <details>
+      <summary>"그래서 두 시스템이 같다는 말인가요?"</summary>
+      <p>"같다"가 무엇에 걸리는지 조심해야 합니다. 시험한 시스템과 baseline은 <strong>얼린 generator 가중치, speech 입력, 디코더와 window 연결, catastrophic filter가 전부 동일</strong>합니다. 다른 것은 딱 하나, <strong>어떤 initial noise 벡터가 들어가느냐</strong>입니다 — baseline은 눈감고 뽑고, 시험 시스템은 학습된 policy가 고릅니다. 그러니 "같다"는 딱 한 가지에 대한 진술입니다. <em>noise를 신중히 고르는 것이, 눈감고 뽑는 것 대비 보는 사람에게 아무 이득을 못 준다.</em></p>
+      <p>세 층위를 분리해야 하고, 평평하게 나온 것은 세 번째뿐입니다.</p>
+      <ul class="tight">
+        <li>noise는 바뀌었습니다 — 설계상 그렇고, 동작도 눈에 띄게 다릅니다. 우리 필름스트립이 보여 줍니다.</li>
+        <li>학습된 reward도 바뀌었습니다 — 측정 가능하게. best-of-32는 held-out prompt 15개 전부에서 +0.98을 올렸습니다.</li>
+        <li>사람의 판단은 바뀌지 않았습니다 — 23명은 이쪽, 23명은 저쪽.</li>
+      </ul>
+      <p>그러니 주장은 "policy가 아무것도 안 했다"도, "generator가 한 가지 동작만 낸다"도 아닙니다. policy가 만들어 내는 차이에 <strong>선호되는 방향이 없다</strong>는 것입니다 — 어떤 클립은 policy 쪽이 조금 나아 보이고 어떤 건 baseline 쪽이 나아 보여서, 51명에서 상쇄됩니다. 같은 도구에서 실제 차이가 어떻게 생겼는지는 대조군이 보여 줍니다 — 49 대 2.</p>
+      <p>그리고 범위는 의도적으로 좁습니다. <em>이</em> 참가자들에게, 20초 클립에서, <em>전반적으로 어느 쪽을 선호하는지</em> 물었을 때 같습니다. 질문을 "어느 쪽이 더 활동적인가"로 바꾸면 갈릴 수도 있습니다. 동일함을 증명한 적도 없습니다 — pilot이 주장한 크기의 효과를 배제할 만큼의 참가자로, 차이를 찾지 못한 것입니다.</p>
+    </details>
+    <details>
+      <summary>"이거 그냥 negative result 아닌가요?"</summary>
+      <p>진단이고, 그 진단이 기여입니다. 하나의 실패를 reward validity, 도달 가능한 generator 변이, optimizer 거동, 평가 민감도에 걸쳐 <strong>하나의 통제된 파이프라인 안에서</strong> 추적했습니다. 각 단계는 다른 그룹이 연산 자원을 쓰기 전에 돌려 볼 수 있는 확인 절차를 남깁니다. 부정적 결과가 그 확인 절차를 신뢰할 만하게 만드는 것입니다.</p>
+    </details>
+    <details>
+      <summary>"더 좋은 reward면 해결되지 않나요?"</summary>
+      <p>그럴 수도 있지만, 저희 데이터로는 결정할 수 없고 그렇게 말하는 편이 낫습니다. 명시적으로 열어 둔 세 질문: on-policy preference 데이터가 훨씬 많으면 이 얼린 generator를 조종 가능하게 만들 수 있는가, 완벽한 reward라면 같은 reachable set 안에서 성공할 것인가, 현재 reward가 더 넓은 generator 위에서는 성공할 것인가. 말할 수 있는 것은, 선택 압력만 높이는 것으로는 어느 한계도 보완되지 않았다는 사실입니다.</p>
+    </details>
+    <details>
+      <summary>"왜 generator를 얼리나요? 큰 핸디캡인데요."</summary>
+      <p>얼리지 않은 쪽이 먼저 실패했고, 감지하기 어려운 방식으로 실패했기 때문입니다 — reward는 오르는데 분포는 FGD 기준 8~15배 벗어났습니다. 얼리면 숨어 있던 두 가정이 시험 가능한 질문으로 바뀝니다. 진단을 위한 경계이지, 얼린 상태가 시스템을 만드는 옳은 방법이라는 주장이 아닙니다.</p>
+    </details>
+    <details>
+      <summary>"화자 한 명, generator 하나뿐인가요?"</summary>
+      <p>네 — BEAT2 화자 한 명, GestureLSM shortcut checkpoint 하나, 그리고 모집한 참가자 집단입니다. reachability 결과를 그 checkpoint 너머로 일반화하지 않겠습니다. 더 많은 화자와 generator로 근거의 폭을 넓히고 각각에서 reward를 다시 검증하는 것이 포스터에 적힌 다음 단계입니다.</p>
+    </details>
+    <details>
+      <summary>"89.6 % 벤치마크는 깨끗한 test set인가요?"</summary>
+      <p>아닙니다. 논문 한계 절에 그렇게 적혀 있습니다. 709-pair development set은 reward를 만드는 동안 들여다본 데이터라, 89.6 %는 설계를 이끈 데이터 위에서의 판별력입니다. 포스터가 development 정확도와 선택 이후 일치율을 같은 표에 넣은 이유가 바로 그것입니다.</p>
+    </details>
+    <details>
+      <summary>시간 배분 — 5분 대 10분</summary>
+      <p><strong>5분:</strong> 패널 1(두 질문) → 패널 3(식과 reachable set) → 패널 5(막대 차트와 49/51 대조군) → 패널 6의 (a)만 → 패널 9.
+      <br><strong>10분:</strong> 패널 2(왜 얼린 상태로 끝났는가), 패널 4(Table 2의 다섯 집단과 사용 규칙), 패널 6의 나머지, 패널 7의 exploit 필름스트립을 추가.</p>
+    </details>
+  </section>
+
+</div>
   </main>
 </div>
+
+<script>
+  // the language choice is a per-reader convenience, so it lives in localStorage and must
+  // never break the page when storage is unavailable (private windows, blocked site data)
+  const root = document.documentElement;
+  const set = (lang) => {
+    root.setAttribute("data-lang", lang);
+    root.lang = lang;
+    document.querySelectorAll(".langtoggle button").forEach(b =>
+      b.setAttribute("aria-pressed", String(b.dataset.set === lang)));
+    try { localStorage.setItem("talk-lang", lang); } catch (e) {}
+  };
+  let saved = "en";
+  try { saved = localStorage.getItem("talk-lang") || "en"; } catch (e) {}
+  set(saved === "ko" ? "ko" : "en");
+  document.querySelectorAll(".langtoggle button").forEach(b =>
+    b.addEventListener("click", () => set(b.dataset.set)));
+</script>
 
 <script>
   // a saved-to-PDF copy is the offline fallback, so every collapsed answer must be visible
