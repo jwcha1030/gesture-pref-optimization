@@ -526,6 +526,10 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
           Gaussian is one lump by construction: it contains no modes, no groups, nothing to find. We
           draw 24 fresh points from it and run the <em>identical</em> pipeline. 30 draws per clip,
           20 clips — 600 draws in all. One "draw" is one synthetic dataset of 24 points.</li>
+        <li><strong>What the red line under the panel means.</strong> One control cloud proves
+          nothing on its own — it could have been a lucky draw. So we repeated the whole control
+          600 times (20 clips × 30 draws), and the test found "separate groups" in 598 of them.
+          The bottom row of the panel is one of those 600.</li>
         <li><strong>The result — and read the counting carefully.</strong> All 600 of those datasets
           are group-free; that is 100&nbsp;%, by construction. The 99.7&nbsp;% is how often the
           <em>test was wrong about them</em>: it declared "separate groups" for <strong>598 of the
@@ -608,7 +612,7 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
 
     <!-- ---------------- deep dive: size vs direction -->
     <div class="deep">
-      <p class="lede">Panel (d)</p>
+      <p class="lede">Panel (c)</p>
       <h3>Noise size versus noise direction</h3>
       <p class="body">The initial noise is a <strong>vector</strong> — a long list of numbers that the
         generator turns into motion. Any vector can be changed in exactly two independent ways, and
@@ -717,6 +721,9 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
           approximation used in Sec. 4.1</td><td class="ok">derived, disclosed</td></tr>
         <tr><td>best-of-32: +0.98 on all 15 prompts</td><td>Sec. 4.2</td><td class="ok">verbatim</td></tr>
         <tr><td>99.7 % of 600 mode-free draws</td><td>Sec. 5.1</td><td class="ok">verbatim</td></tr>
+        <tr><td>Panel letters (a)(b)(c)</td><td>the poster shows three of the paper's four Fig. 4
+          panels; its (c), the mid-decode branch spread, is quoted in a bullet rather than drawn, so
+          the poster's (c) is the paper's (d)</td><td class="flag">re-lettered for the poster</td></tr>
         <tr><td>Silhouette values 0.58 / 0.73 in the panel</td><td>not printed in the paper — from the
           B-6 control run behind Sec. 5.1</td><td class="flag">extended write-up</td></tr>
         <tr><td>The three named seed conditions</td><td>not named in the paper — Sec. 5.1 says only
