@@ -310,8 +310,9 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
       runtime — and returns a scalar. It is <em class="term">R = z(R<sub>nat</sub>) + λ·z(R<sub>align</sub>)</em>
       with λ = 0.3. <strong>Naturalness</strong> is motion-only: a Bradley–Terry scorer over kinematic
       features plus a DSTformer realism logit, pretrained on clean-versus-corrupted pairs and then
-      fine-tuned on roughly 1,000 preference pairs we annotated ourselves — 709 as a development set
-      we could inspect, about 300 held back untouched. <strong>Alignment</strong> is audio-conditioned:
+      fine-tuned on external human-preference data. Separately, we annotated roughly 1,000 pairs to
+      develop and validate the reward — 709 as a development set we could inspect, about 300 held
+      back untouched. Those pairs measure the reward; they are not its training set. <strong>Alignment</strong> is audio-conditioned:
       wrist and elbow stroke events compared against speech onset strength and energy peaks, with
       lag-aware matching up to ±25 frames — that's ±0.83 s at 30 fps — so a gesture is allowed to
       anticipate or trail the beat instead of having to land on it exactly.</p>
@@ -763,9 +764,9 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
           approximation used in Sec. 4.1</td><td class="ok">derived, disclosed</td></tr>
         <tr><td>best-of-32: +0.98 on all 15 prompts</td><td>Sec. 4.2</td><td class="ok">verbatim</td></tr>
         <tr><td>99.7 % of 600 mode-free draws</td><td>Sec. 5.1</td><td class="ok">verbatim</td></tr>
-        <tr><td>Panel letters (a)(b)(c)</td><td>the poster shows three of the paper's four Fig. 4
-          panels; its (c), the mid-decode branch spread, is quoted in a bullet rather than drawn, so
-          the poster's (c) is the paper's (d)</td><td class="flag">re-lettered for the poster</td></tr>
+        <tr><td>Panel letters (a)(b)(c)</td><td>poster-local lettering. The camera-ready has only
+          Figs. 1–3 — it has no Fig. 4 — so the panel is captioned "Above" rather than by a paper
+          figure number</td><td class="flag">poster-only figure</td></tr>
         <tr><td>Silhouette values 0.58 / 0.73 in the panel</td><td>not printed in the paper — from the
           B-6 control run behind Sec. 5.1</td><td class="flag">extended write-up</td></tr>
         <tr><td>The three named seed conditions</td><td>not named in the paper — Sec. 5.1 says only
@@ -914,7 +915,7 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
   <section class="panel">
     <div class="phead"><span class="chip">4</span><h2>Two-axis, runtime reference-free reward</h2></div>
     <span class="cue">이렇게 말한다</span>
-    <p class="say">이 reward는 생성된 동작 하나와 그 자신의 audio만 읽고 — 런타임에 녹화된 동작을 참조하지 않습니다 — 스칼라를 냅니다. <em class="term">R = z(R<sub>nat</sub>) + λ·z(R<sub>align</sub>)</em>, λ = 0.3. <strong>Naturalness</strong>는 motion-only입니다. kinematic feature에 대한 Bradley–Terry scorer와 DSTformer realism logit을 합쳤고, 후자는 clean-vs-corrupted pair로 pretrain한 뒤 저희가 직접 라벨링한 약 1,000개 preference pair로 fine-tune했습니다 — 709개는 들여다볼 수 있는 development set, 약 300개는 손대지 않고 보관. <strong>Alignment</strong>는 audio-conditioned입니다. 손목·팔꿈치 stroke event를 speech onset strength와 energy peak에 맞춰 보는데, lag-aware matching이 ±25 프레임(30 fps에서 ±0.83초)까지 허용됩니다. 즉 gesture가 박자를 정확히 맞출 필요 없이 앞서거나 늦어도 됩니다.</p>
+    <p class="say">이 reward는 생성된 동작 하나와 그 자신의 audio만 읽고 — 런타임에 녹화된 동작을 참조하지 않습니다 — 스칼라를 냅니다. <em class="term">R = z(R<sub>nat</sub>) + λ·z(R<sub>align</sub>)</em>, λ = 0.3. <strong>Naturalness</strong>는 motion-only입니다. kinematic feature에 대한 Bradley–Terry scorer와 DSTformer realism logit을 합쳤고, 후자는 clean-vs-corrupted pair로 pretrain한 뒤 <strong>외부 human-preference 데이터</strong>로 fine-tune했습니다. 저희가 직접 라벨링한 약 1,000개 pair는 그와 별개로 reward를 <strong>검증</strong>하는 데 썼습니다 — 709개는 들여다볼 수 있는 development set, 약 300개는 손대지 않고 보관. 학습 데이터가 아닙니다. <strong>Alignment</strong>는 audio-conditioned입니다. 손목·팔꿈치 stroke event를 speech onset strength와 energy peak에 맞춰 보는데, lag-aware matching이 ±25 프레임(30 fps에서 ±0.83초)까지 허용됩니다. 즉 gesture가 박자를 정확히 맞출 필요 없이 앞서거나 늦어도 됩니다.</p>
     <p class="say">두 축은 합치기 전에 표준화합니다. 스케일이 크다는 이유만으로 한쪽 head가 지배하지 않게요. λ를 1.0이 아니라 0.3으로 둔 이유는, 나머지 조건을 똑같이 두고 비교했을 때 alignment 가중치를 키우면 <strong>policy가 학습한 클립에서만</strong> reward가 오르고 처음 보는 speech로는 넘어가지 않았기 때문입니다.</p>
 
     <span class="cue">Table 2 읽기 — 다섯 줄, 다섯 개의 서로 다른 집단</span>
@@ -1133,7 +1134,7 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
         <tr><td>참가자 갈림 23/23, 22/20, 17/11</td><td>논문에는 없음 — p값이 나온 그 실험 기록(userstudy_scale01_report.md §2, userstudy_pilot05_report.md)</td><td class="flag">실험 기록</td></tr>
         <tr><td>best-of-32: prompt 15개 전부 +0.98</td><td>4.2절</td><td class="ok">그대로</td></tr>
         <tr><td>그룹 없는 600 draw 중 99.7 %</td><td>5.1절</td><td class="ok">그대로</td></tr>
-        <tr><td>패널 문자 (a)(b)(c)</td><td>포스터는 논문 Fig. 4의 네 패널 중 셋을 그립니다. 논문의 (c)인 mid-decode branch spread는 그리는 대신 bullet로 인용했으므로, 포스터의 (c)는 논문의 (d)입니다</td><td class="flag">포스터용 재부여</td></tr>
+        <tr><td>패널 문자 (a)(b)(c)</td><td>포스터 자체의 번호입니다. camera-ready에는 Fig. 1–3만 있고 <strong>Fig. 4가 없습니다</strong> — 그래서 논문 figure 번호 대신 "Above"로 캡션을 답니다</td><td class="flag">포스터 전용 그림</td></tr>
         <tr><td>패널의 silhouette 0.58 / 0.73</td><td>논문에 인쇄되지 않음 — 5.1절 뒤의 B-6 대조 실행에서</td><td class="flag">확장판</td></tr>
         <tr><td>seed-decay 곡선 (0.10 m → 0.002 m)</td><td>5.1절이 말로 씀: 차이가 "attenuate within a few generation windows"</td><td class="flag">확장판</td></tr>
         <tr><td>세 seed 조건의 이름</td><td>논문에 이름이 없음 — 5.1절은 "changing the opening seed"라고만 씁니다. 세 조건은 그 뒤의 C-1 seed-swap 격자</td><td class="flag">확장판</td></tr>
