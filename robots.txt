@@ -1,2 +1,5 @@
 User-agent: *
 Allow: /
+
+# unlisted working notes: reachable only with the exact link
+Disallow: /notes/

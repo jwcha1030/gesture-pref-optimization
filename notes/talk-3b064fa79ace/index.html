@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root{color-scheme:light dark}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+  @media print{
+    nav.rail{display:none}
+    .cols{display:block}
+    details{border-left:none;padding-left:0}
+    details>*{display:block!important}
+    .panel{break-inside:avoid}
+    a{text-decoration:none;color:inherit}
+  }
+</style>
+</head>
+<body>
+<title>Gesture Poster Talk Script</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --navy:#1F3B63; --blue:#3B6EA8; --pale:#E9F1F9; --paper:#FBFCFE; --card:#FFFFFF;
+  --ink:#1B2430; --muted:#5A6672; --line:#C9D6E5; --rule:#E2EAF3;
+  --good:#3E7D5A; --warn:#A01C1C; --chipfg:#FFFFFF;
+  --shadow:0 1px 2px rgba(31,59,99,.06),0 6px 22px rgba(31,59,99,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --navy:#9DC0E6; --blue:#7FA8D8; --pale:#1A2637; --paper:#0F1720; --card:#141E2A;
+    --ink:#E6EDF5; --muted:#9AA9B9; --line:#2C3B4E; --rule:#22303F;
+    --good:#6FB58C; --warn:#E08A82; --chipfg:#0F1720;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 22px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --navy:#9DC0E6; --blue:#7FA8D8; --pale:#1A2637; --paper:#0F1720; --card:#141E2A;
+  --ink:#E6EDF5; --muted:#9AA9B9; --line:#2C3B4E; --rule:#22303F;
+  --good:#6FB58C; --warn:#E08A82; --chipfg:#0F1720;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 22px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Source Sans 3","Helvetica Neue",Arial,sans-serif; font-size:17px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif; color:var(--navy); text-wrap:balance; margin:0}
+a{color:var(--blue)}
+.wrap{max-width:1180px; margin:0 auto; padding:0 22px 96px}
+
+/* ---------------------------------------------------------------- masthead */
+.mast{border-bottom:3px solid var(--navy); background:var(--pale); margin-bottom:34px}
+.mast .wrap{padding-top:38px; padding-bottom:30px}
+.kicker{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--blue); margin-bottom:12px}
+h1{font-size:clamp(30px,4.4vw,46px); line-height:1.14; letter-spacing:-.01em}
+.mast p.sub{margin:12px 0 0; max-width:62ch; color:var(--muted); font-size:18px}
+.spine{margin-top:26px; background:var(--card); border:1px solid var(--line); border-radius:3px;
+  padding:20px 24px; box-shadow:var(--shadow); max-width:78ch}
+.spine h3{font-size:16px; margin-bottom:8px}
+.spine p{margin:0 0 10px; font-size:17px}
+.spine p:last-child{margin-bottom:0}
+
+/* ---------------------------------------------------------------- layout */
+.cols{display:grid; grid-template-columns:190px minmax(0,1fr); gap:44px; align-items:start}
+@media (max-width:900px){ .cols{grid-template-columns:1fr; gap:24px} }
+nav.rail{position:sticky; top:18px}
+@media (max-width:900px){ nav.rail{position:static} }
+nav.rail ol{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:2px}
+@media (max-width:900px){
+  nav.rail ol{flex-direction:row; overflow-x:auto; gap:8px; padding-bottom:8px}
+  nav.rail li{flex:0 0 auto}
+}
+nav.rail a{display:flex; gap:9px; align-items:baseline; text-decoration:none; color:var(--muted);
+  font-size:14px; padding:5px 7px; border-radius:3px; border-left:2px solid transparent}
+nav.rail a:hover,nav.rail a:focus-visible{color:var(--navy); background:var(--pale); border-left-color:var(--blue)}
+nav.rail .n{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--blue); font-weight:600}
+
+/* ---------------------------------------------------------------- panels */
+.panel{border-top:1px solid var(--rule); padding:30px 0 8px}
+.panel:first-of-type{border-top:none; padding-top:0}
+.phead{display:flex; gap:14px; align-items:flex-start; margin-bottom:16px}
+.chip{flex:0 0 auto; width:32px; height:32px; border-radius:50%; background:var(--navy); color:var(--chipfg);
+  font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:15px;
+  display:grid; place-items:center; margin-top:3px}
+.phead h2{font-size:clamp(21px,2.4vw,27px); line-height:1.22}
+.cue{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--blue); display:block; margin:22px 0 6px}
+.cue.q{color:var(--muted)}
+.say{font-size:19px; line-height:1.6; max-width:68ch; margin:0}
+.say + .say{margin-top:12px}
+p,li{max-width:70ch}
+.body{color:var(--ink)}
+.body p{margin:10px 0}
+ul.tight{margin:8px 0; padding-left:20px}
+ul.tight li{margin:5px 0}
+strong{font-weight:600}
+em.term{font-style:normal; font-weight:600; color:var(--navy)}
+
+/* numbers strip */
+.nums{display:flex; flex-wrap:wrap; gap:10px; margin:16px 0 4px}
+.num{background:var(--card); border:1px solid var(--line); border-radius:3px; padding:9px 13px;
+  box-shadow:var(--shadow); min-width:0}
+.num b{display:block; font-family:"IBM Plex Mono",monospace; font-size:17px; font-weight:600;
+  color:var(--navy); font-variant-numeric:tabular-nums}
+.num span{display:block; font-size:13px; color:var(--muted); line-height:1.35; max-width:30ch}
+
+/* q&a */
+details{border-left:2px solid var(--line); padding:2px 0 2px 15px; margin:10px 0}
+details[open]{border-left-color:var(--blue)}
+summary{cursor:pointer; font-weight:600; color:var(--navy); list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸ "; color:var(--blue)}
+details[open] summary::before{content:"▾ "}
+details p{margin:8px 0 4px}
+
+/* call-out for the two deep dives */
+.deep{background:var(--pale); border:1px solid var(--line); border-radius:3px; padding:20px 24px; margin:18px 0}
+.deep h3{font-size:19px; margin-bottom:4px}
+.deep .lede{color:var(--muted); font-size:14px; font-family:"IBM Plex Mono",monospace;
+  letter-spacing:.06em; text-transform:uppercase; margin:0 0 10px}
+.steps{counter-reset:s; list-style:none; margin:12px 0 0; padding:0}
+.steps li{counter-increment:s; position:relative; padding-left:34px; margin:12px 0; max-width:66ch}
+.steps li::before{content:counter(s); position:absolute; left:0; top:1px; width:22px; height:22px;
+  border-radius:50%; border:1px solid var(--blue); color:var(--blue); font-size:12px; font-weight:600;
+  font-family:"IBM Plex Mono",monospace; display:grid; place-items:center}
+
+/* tables */
+.tw{overflow-x:auto; margin:16px 0}
+table{border-collapse:collapse; width:100%; font-size:15px; min-width:640px}
+th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--rule); vertical-align:top}
+th{background:var(--navy); color:var(--chipfg); font-weight:600; font-size:13.5px;
+  letter-spacing:.02em; border-bottom:none}
+td:first-child{white-space:nowrap; font-weight:600; color:var(--navy)}
+td.num-c{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+.ok{color:var(--good); font-weight:600}
+.flag{color:var(--warn); font-weight:600}
+
+.note{border-left:3px solid var(--warn); background:var(--card); padding:12px 16px; margin:16px 0;
+  font-size:15.5px; box-shadow:var(--shadow)}
+.note b{color:var(--warn)}
+
+footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); color:var(--muted); font-size:14px}
+:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){ html{scroll-behavior:smooth} }
+</style>
+
+<div class="mast">
+  <div class="wrap">
+    <div class="kicker">ECCV 2026 · Malmö · Workshop on Interactive Social Avatars</div>
+    <h1>Why Is Human-Preference Optimization Difficult for Co-Speech Gesture Generation?</h1>
+    <p class="sub">A panel-by-panel script for the 140 × 100 cm poster, with the reading of every
+      chart and the answers to the questions the charts invite. Everything here is checked against
+      the camera-ready <em>main_short.tex</em>; where a number is not in the paper, it says so.</p>
+
+    <div class="spine">
+      <h3>The 30-second version, if someone only stops for a moment</h3>
+      <p>One utterance admits many good gestures, but supervised training copies the single motion
+        that happened to be recorded. Preference learning should be able to reward <em>any</em> motion
+        people judge natural and well-timed. So we built a two-axis reward from pairwise human
+        judgments, froze a strong pretrained generator, and steered only its initial noise.</p>
+      <p>The reward got much better on our development pairs — 71.9&nbsp;% → 89.6&nbsp;% agreement with
+        human raters. Then 51 fresh participants could not tell any tuned system from the untrained
+        one, while 49 of those same 51 preferred real motion capture. So the study works; the tuning
+        does not show.</p>
+      <p><strong>The paper is the diagnosis of why.</strong> Two limits are coupled: the reward loses
+        its fine ordering exactly on the outputs it was used to select, and the frozen generator does
+        not demonstrably contain a distinctly better candidate to select.</p>
+    </div>
+  </div>
+</div>
+
+<div class="wrap cols">
+  <nav class="rail" aria-label="Poster panels">
+    <ol>
+      <li><a href="#p1"><span class="n">1</span> Many valid gestures</a></li>
+      <li><a href="#p2"><span class="n">2</span> Three boundaries</a></li>
+      <li><a href="#p3"><span class="n">3</span> Noise steering</a></li>
+      <li><a href="#p4"><span class="n">4</span> The reward</a></li>
+      <li><a href="#p5"><span class="n">5</span> Human evaluation</a></li>
+      <li><a href="#p6"><span class="n">6</span> What steering changes</a></li>
+      <li><a href="#p7"><span class="n">7</span> A reward exploit</a></li>
+      <li><a href="#p8"><span class="n">8</span> Attribution</a></li>
+      <li><a href="#p9"><span class="n">9</span> Design gates</a></li>
+      <li><a href="#check"><span class="n">✓</span> Paper cross-check</a></li>
+      <li><a href="#faq"><span class="n">?</span> Hard questions</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+  <!-- ============================================================ 1 -->
+  <section class="panel" id="p1">
+    <div class="phead"><span class="chip">1</span><h2>One utterance, many valid gestures</h2></div>
+    <span class="cue">Say</span>
+    <p class="say">A speech recording is not a unique label for gesture. The same sentence could be
+      delivered with a different, equally natural motion — so training a model to copy the one motion
+      that was captured leaves every other valid outcome unrewarded. Preference learning offers a way
+      out: generate several candidates, ask people which they prefer, and push toward what they choose.</p>
+    <p class="say">Our generator is a flow-matching model. Sampling starts from a random initial noise
+      vector, and the model maps <em class="term">speech context</em> plus that noise to a motion. We
+      freeze the generator entirely and change only the noise. That reduces the whole project to two
+      questions, and the rest of the poster answers them: <strong>① does the reward rank optimized
+      candidates the way people do?</strong> and <strong>② do the frozen generator's reachable outputs
+      even contain a better candidate?</strong></p>
+    <span class="cue q">If asked — why not just train the generator?</span>
+    <p class="body">Panel 2 is that answer: we tried, twice, and both failures are what motivated the
+      frozen boundary.</p>
+  </section>
+
+  <!-- ============================================================ 2 -->
+  <section class="panel" id="p2">
+    <div class="phead"><span class="chip">2</span><h2>Three intervention boundaries</h2></div>
+    <span class="cue">Say</span>
+    <p class="say">We didn't begin at the frozen boundary — we ended there. First we ran preference
+      updates on EMAGE, which generates from discrete motion codes: the checkpoint we had only ever
+      activated 19 to 23 of its 256 codes per body part, so there was almost no same-prompt variety
+      for a preference learner to rank. That pushed us to a continuous generator. Then GestureLSM with
+      Flow-GRPO, updating the generator's velocity field: without a KL anchor holding it to the
+      pretrained model, it drifted out of the pretrained motion distribution — 8 to 15 times worse
+      FGD — and the motion became exaggerated or repetitive even in runs where the learned reward rose.
+      That pushed us to freeze the weights. The third row is this paper.</p>
+    <span class="cue">Reading the table</span>
+    <p class="body">Four columns: the <strong>system</strong>, the <strong>object it updates</strong>
+      (what actually changes during learning), the <strong>limitation we observed</strong>, and the
+      <strong>role</strong> that limitation plays in the argument. Read it top to bottom as a
+      narrowing of what we allow ourselves to touch.</p>
+    <div class="nums">
+      <div class="num"><b>19–23 / 256</b><span>EMAGE codes active per body part</span></div>
+      <div class="num"><b>8–15×</b><span>worse FGD when Flow-GRPO runs without a KL anchor</span></div>
+      <div class="num"><b>noise only</b><span>what the final system is allowed to change</span></div>
+    </div>
+    <details>
+      <summary>What is FGD, and why is it not the target?</summary>
+      <p>Fréchet Gesture Distance: a distribution-level distance between generated and real motion.
+        We use it only as a damage guard — it receives no audio, so it cannot measure whether a
+        gesture fits <em>this</em> utterance. Every system admitted to a human study passed the same
+        predefined distribution-damage gate, which rules out gross drift, not subtle perceptual failure.</p>
+    </details>
+  </section>
+
+  <!-- ============================================================ 3 -->
+  <section class="panel" id="p3">
+    <div class="phead"><span class="chip">3</span><h2>Initial-noise steering, frozen generator</h2></div>
+    <span class="cue">Say</span>
+    <p class="say">Here is the setting in one line. A candidate motion is
+      <em class="term">m<sub>i</sub> = G<sub>θ₀</sub>(c, w<sub>i</sub>)</em>: the generator, frozen at
+      its pretrained weights θ₀, maps the speech context <em class="term">c</em> and an initial noise
+      <em class="term">w<sub>i</sub></em> to motion <em class="term">i</em>. The reachable set
+      <em class="term">M<sub>c</sub></em> is everything that generator can produce for that speech as
+      the noise ranges over all possible values.</p>
+    <p class="say">The consequence is the sentence under the equation: a noise policy or a search can
+      only <strong>re-weight</strong> what is already inside that set. It can never create an output
+      outside it. That is precisely why question ② is not rhetorical.</p>
+    <span class="cue">The practical details on the panel</span>
+    <ul class="tight body">
+      <li>A 20-second clip is generated as <strong>six chained windows</strong> of a few seconds each,
+        and each window consumes its own block of initial noise. One complete candidate is six noise
+        blocks.</li>
+      <li>The <strong>explicit-noise interface</strong> replaces the generator's internal random draw
+        with a noise we supply and then runs the unchanged decoder — verified to reproduce the stock
+        output exactly, so nothing we measure is an artifact of our plumbing.</li>
+      <li>One <strong>catastrophic filter</strong> (non-finite values, implausible movement range,
+        prolonged freezing, extreme jerk, invalid rotations). Flagged candidates are kept but ranked
+        below every feasible one; the filter contributes no graded quality score.</li>
+      <li>One <strong>two-axis reward</strong>, the same implementation in training and in evaluation.</li>
+      <li>Noise policies train on 95 speaker-specific recordings; all 15 test recordings stay held out.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================ 4 -->
+  <section class="panel" id="p4">
+    <div class="phead"><span class="chip">4</span><h2>A two-axis, runtime reference-free reward</h2></div>
+    <span class="cue">Say</span>
+    <p class="say">The reward reads one generated motion and its own audio — no recorded motion at
+      runtime — and returns a scalar. It is <em class="term">R = z(R<sub>nat</sub>) + λ·z(R<sub>align</sub>)</em>
+      with λ = 0.3. <strong>Naturalness</strong> is motion-only: a Bradley–Terry scorer over kinematic
+      features plus a DSTformer realism logit, pretrained on clean-versus-corrupted pairs and then
+      fine-tuned on roughly 1,000 preference pairs we annotated ourselves — 709 as a development set
+      we could inspect, about 300 held back untouched. <strong>Alignment</strong> is audio-conditioned:
+      wrist and elbow stroke events compared against speech onset strength and energy peaks, with
+      lag-aware matching up to ±25 frames — that's ±0.83 s at 30 fps — so a gesture is allowed to
+      anticipate or trail the beat instead of having to land on it exactly.</p>
+    <p class="say">Both axes are standardized before they are combined, so neither head dominates
+      merely because of its scale. And λ = 0.3 rather than 1.0 because in otherwise-identical runs the
+      heavier alignment weight mainly produced reward gains on the clips a policy had trained on, and
+      those gains did not carry over to unseen speech.</p>
+
+    <span class="cue">Reading Table 2 — five rows, five different populations</span>
+    <p class="body">This is the table people misread, so lead with the caption: <strong>every entry is
+      a percentage, but of a different quantity.</strong> The rows are not stages of one learning curve;
+      each row tests the reward on a different kind of comparison.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Row</th><th>What the percentage is a percentage of</th><th>Why it is on the poster</th></tr></thead>
+      <tbody>
+        <tr><td>89.6 % vs 71.9 %</td><td>Share of the 709 <strong>development pairs</strong> the reward
+          ranks the way our human raters did — deployed reward vs. its predecessor.</td>
+          <td>The headline improvement. Note it is measured on data that guided the design.</td></tr>
+        <tr><td>100 % vs 62 %</td><td>Share of <strong>catalogued exploit pairs</strong> ranked correctly
+          — ordinary motion versus the reward-exploiting styles collected in the weight-space era.</td>
+          <td>The new reward covers the exploit class we already knew about.</td></tr>
+        <tr><td>60.7 % (n = 1,413)</td><td>Share of <strong>participant choices</strong> in the main study
+          that the reward agrees with, when it scores both clips of a shown pair.</td>
+          <td>Real but only above-chance: local ordering, not a ranking guarantee.</td></tr>
+        <tr><td>≈ 53 % (n = 360)</td><td>The same agreement, restricted to pairs from the two systems
+          whose motion is <strong>closest to the baseline</strong>.</td>
+          <td>Almost a coin flip. This is the fine-ranking regime optimization actually operates in.</td></tr>
+        <tr><td>65 % variance</td><td>Share of naturalness-score <strong>variance explained by clip
+          identity</strong> across 24 candidates for each of 20 clips.</td>
+          <td>Raw scores are not global utilities: which speech clip it is dominates the score.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="body"><strong>Say the rule out loud:</strong> use the reward only to rank candidates
+      generated for the <em>same</em> speech prompt, or against a baseline generated for that same
+      prompt. A reward can hold real local signal and still fail at the fine ranking that optimization
+      demands.</p>
+  </section>
+
+  <!-- ============================================================ 5 -->
+  <section class="panel" id="p5">
+    <div class="phead"><span class="chip">5</span><h2>Human evaluation: no reliable preference gain</h2></div>
+    <span class="cue">Say</span>
+    <p class="say">Human judgment is the primary test, because the objective is visual naturalness plus
+      fit to this specific speech. Every comparison uses the same baseline: the untrained,
+      speaker-specific GestureLSM checkpoint. Participants recruited through Prolific saw two
+      side-swapped 20-second avatar videos with shared audio and chose one.</p>
+
+    <span class="cue">Reading the bar chart</span>
+    <p class="body">One bar per comparison. The bar length is <strong>the share of participants who
+      preferred that system over the untrained baseline</strong>; the vertical line at 50&nbsp;% is an
+      even split; the whiskers are 95&nbsp;% intervals.</p>
+    <ul class="tight body">
+      <li><strong>Green, 96 %</strong> — the control: real human motion capture against the same
+        baseline. 49 of 51 participants preferred it. This is the check that the study can detect a
+        difference at all.</li>
+      <li><strong>Orange, 59 % / 48 % / 49 %</strong> — the three tested policies. Every interval
+        crosses the 50&nbsp;% line.</li>
+    </ul>
+    <p class="body">The sentence that lands: <em>"the same 51 people who overwhelmingly picked real
+      motion could not pick our systems above chance."</em> So the null is not a failure of the study.</p>
+    <div class="nums">
+      <div class="num"><b>49 / 51</b><span>preferred real motion capture — the predictable-outcome control</span></div>
+      <div class="num"><b>51 + 30</b><span>participants in the two adequately powered studies</span></div>
+      <div class="num"><b>+0.98</b><span>reward the training-free best-of-32 gains, on all 15 held-out prompts</span></div>
+    </div>
+
+    <div class="deep">
+      <p class="lede">The statistic on the poster's Table 3</p>
+      <h3>How to read Cohen's <i>d</i></h3>
+      <p class="body"><strong>What it is.</strong> Each participant contributes one score: the average
+        of that person's votes on this comparison, positive if they leaned toward our system, negative
+        if they leaned toward the untrained baseline, zero for an even split. Average those across
+        participants and you get the <em class="term">mean preference</em>. That number is on a scale
+        specific to our voting interface, so it cannot be compared with anyone else's study. Dividing
+        it by the <strong>standard deviation of those participant scores</strong> removes the scale.
+        That ratio is Cohen's <em>d</em>:</p>
+      <p class="body" style="font-size:18px"><em class="term">d</em> = mean preference ÷ SD across
+        participants. It says <em>how big the average lean is, in units of how much participants
+        disagree with each other.</em></p>
+      <p class="body"><strong>Range.</strong> Formally unbounded, −∞ to +∞. The sign is the direction:
+        positive means our system, negative means the baseline. Cohen's rough conventions are 0.2
+        small, 0.5 medium, 0.8 large — conventions, not laws.</p>
+      <p class="body"><strong>Reading it as people.</strong> If participant scores are roughly normal,
+        the share who leaned toward our system is Φ(<em>d</em>), the normal CDF. This is the conversion
+        the paper itself uses in Sec. 4.1, and the one the poster's bar chart plots:</p>
+      <div class="tw"><table>
+        <thead><tr><th>Cohen's <i>d</i></th><th>Share leaning toward the tested system</th><th>Where it appears</th></tr></thead>
+        <tbody>
+          <tr><td class="num-c">−0.06</td><td class="num-c">48 %</td><td>winner imitation, K = 32 (N = 51)</td></tr>
+          <tr><td class="num-c">−0.03</td><td class="num-c">49 %</td><td>winner imitation, K = 16 (N = 51)</td></tr>
+          <tr><td class="num-c">0.00</td><td class="num-c">50 %</td><td>an even split</td></tr>
+          <tr><td class="num-c">+0.23</td><td class="num-c">59 %</td><td>largest-search imitation, K = 64 (N = 30)</td></tr>
+          <tr><td class="num-c">+0.50</td><td class="num-c">69 %</td><td>"medium" by convention</td></tr>
+          <tr><td class="num-c">+0.80</td><td class="num-c">79 %</td><td>"large" by convention</td></tr>
+          <tr><td class="num-c">≈ +1.75</td><td class="num-c">96 %</td><td>roughly where real motion capture sits (49 of 51)</td></tr>
+        </tbody>
+      </table></div>
+      <p class="body"><strong>The trap to avoid.</strong> <em>d</em> says nothing about how many people
+        you asked. A <em>d</em> of +0.23 from 30 participants and a <em>d</em> of +0.23 from 3,000 are
+        the same number and completely different evidence. That is why the poster's table keeps
+        <em>N</em> and <em>p</em> next to it: our +0.23 comes with p = 0.345, so it is a point estimate
+        the study cannot resolve, not a detected effect. Our −0.03 and −0.06 are, for practical
+        purposes, exactly zero.</p>
+      <p class="body"><strong>The name.</strong> It is a <em class="term">p-value</em>: the
+        probability, <strong>under the null hypothesis</strong>, of a test statistic at least as
+        extreme as the one observed. Our null hypothesis is "participants have no systematic
+        preference between this policy and the baseline", and the test is the one named in Sec. 4 —
+        a <strong>two-sided sign test on the participant-level scores</strong>. The 0.05 line people
+        quote is the <em class="term">significance level</em> α; "statistically significant" just
+        means p &lt; α.</p>
+      <p class="body"><strong>And a <i>p</i>-value is not a confidence interval — this is the one
+        people get wrong.</strong> <em>p</em> does not say "we are 87.8 % confident". It answers a
+        different
+        question: <em>if the two systems were truly identical, how often would pure luck hand us a gap
+        at least this big?</em> So the logic runs the opposite way from a confidence level — a
+        <strong>small</strong> <em>p</em> (below 0.05, by convention) means the result would be
+        surprising under "no difference", which is evidence that a difference exists. A
+        <strong>large</strong> <em>p</em> means what we saw is exactly what "no difference" predicts.</p>
+      <p class="body"><strong>How large is large?</strong> Under the null hypothesis a p-value is
+        uniform on 0 to 1, so read it directly as a frequency. p = 0.878 means "if the two systems
+        were identical, a gap at least this big would turn up about 7 times in 8" — utterly ordinary.
+        p = 0.345 means "about 1 time in 3" — still ordinary, but it is not in the same class as
+        0.878, and lumping them together as "large" hides something true: K = 64 has both the biggest
+        point estimate (+0.23) and the smallest p of the three. It is the one comparison with a hint
+        in it, which is exactly why the paper calls it "inconclusive" rather than null. The honest
+        phrasing is <strong>"none of the three reaches p &lt; 0.05"</strong>, not "all three are large".</p>
+      <p class="body">That none of them reaches it is <em>the finding</em>, not a broken result: the
+        data are consistent with the tuned system and the baseline being the same to participants.
+        The same study put p = 1.000 on K = 16 and still detected real motion capture at 49 of 51 —
+        so a large <em>p</em> here is a measurement, not a failure to measure.</p>
+      <p class="body"><strong>What p = 1.000 actually was.</strong> The sign test counts how many
+        participants leaned each way. For K = 16 the split was <strong>23 leaning to the policy, 23
+        leaning to the baseline</strong> — dead even. "At least as extreme as 23-against-23" covers
+        every outcome the test could produce, so the probability is 1. That is all p = 1.000 means:
+        the most unsurprising result obtainable, not a proof that no preference exists. The other two
+        splits were 22 / 20 (p = 0.878) and, for the real-motion control in the same study,
+        <strong>2 / 49</strong> (p &lt; 0.001, d = −2.54).</p>
+
+      <p class="body"><strong>Underpowered? Only one of the three, and it matters which.</strong>
+        This is the distinction to keep straight if someone challenges the null:</p>
+      <ul class="tight body">
+        <li><strong>K = 16 and K = 32, N = 51 — well powered, genuinely null.</strong> The study was
+          sized on the pilot effects and carried 99 % power for the K = 32 pilot estimate and 89 % for
+          the K = 16 one. It came back 23 / 23 and 22 / 20. A larger sample would not "reveal" those
+          pilot effects; the measurement says they were not real.</li>
+        <li><strong>K = 64, N = 30 — underpowered.</strong> Its point estimate is +0.23 and 30 people
+          cannot resolve that: roughly 150 would be needed at 80 % power with a t-test, more with a
+          sign test (our calculation, not in the paper). Here "we cannot tell" is the honest phrase.</li>
+      </ul>
+      <p class="body">Even for K = 64, "cannot tell" is bounded rather than total: the interval runs
+        from about 45 % to 72 %, so a small advantage survives but anything resembling the real-motion
+        gap (96 %) is excluded. And no p-value, however large, licenses "the systems are equivalent" —
+        that would need an equivalence test against a margin declared in advance, which we did not run.
+        Hence the paper's exact wording: no reliable advantage detected, no claim of equivalence.</p>
+      <p class="body">What a large <em>p</em> does <em>not</em> license is the claim that the systems
+        are equivalent. Absence of evidence for a difference is not evidence of no difference; the
+        paper states this explicitly ("we do not claim equivalence or that every tested system is
+        worse"). The interval on the bar chart is the more honest picture: it shows both the estimate
+        and how much room is left around it.</p>
+      <p class="body"><strong>Why not just report the raw percentage?</strong> For the real-motion
+        control we do — 49 of 51 people, counted. For the policy comparisons each person voted several
+        times, so a per-person score plus its spread is the honest summary, and <em>d</em> is what makes
+        that summary comparable to studies that used a different voting scale.</p>
+    </div>
+
+    <details>
+      <summary>Where do the percentages come from, if the paper reports Cohen's <i>d</i>?</summary>
+      <p>The paper reports the mean preference, Cohen's <em>d</em> (mean preference divided by how much
+        participants differ from one another), and a two-sided sign test. The poster shows Φ(<em>d</em>),
+        the normal approximation the paper itself uses when it writes "<em>d</em> = −0.03 … about
+        49&nbsp;% of participants." So 59&nbsp;%, 48&nbsp;%, 49&nbsp;% are exactly the paper's own
+        +0.23, −0.06, −0.03. The control's interval is a Wilson interval on 49/51; the tested systems'
+        intervals come from SE(<em>d</em>) = √(1/n + <em>d</em>²/2n), mapped through the same Φ.
+        Table 3 on the poster keeps <em>d</em> and <em>p</em> so nothing is hidden.</p>
+    </details>
+    <details>
+      <summary>"59 % looks like a win, though."</summary>
+      <p>N = 30, p = 0.345, and the interval spans the even split — the paper calls that result
+        inconclusive. It is a point estimate a 30-person study cannot resolve; about 150 participants
+        would be needed. Note this is the one comparison of the three where "underpowered" is the right
+        word: the two 51-participant comparisons were sized on the pilot effects, carried 89–99 % power
+        for them, and came back 23 / 23 and 22 / 20.</p>
+    </details>
+    <details>
+      <summary>"Maybe the policy training was just bad."</summary>
+      <p>That is exactly what the training-free control removes. <strong>Best-of-32</strong> updates no
+        parameters at all: for each held-out prompt it decodes 32 random unit-scale noises and keeps
+        the feasible candidate with the highest reward. It raises within-prompt reward by +0.98 and
+        does so on all 15 held-out prompts — and still wins no reliable human preference. So stronger
+        reward maximization alone is not enough, even with no policy-training artifacts to blame.</p>
+    </details>
+    <details>
+      <summary>What the filmstrip under the table is</summary>
+      <p>One 20-second study stimulus, same audio, a frame every 3 seconds: real motion, the untrained
+        baseline, and ours at K = 64. It is there so people can see for themselves how small the
+        differences are that participants were asked to judge. Full videos are behind the QR code.</p>
+    </details>
+  </section>
+
+  <!-- ============================================================ 6 -->
+  <section class="panel" id="p6">
+    <div class="phead"><span class="chip">6</span><h2>What initial-noise steering actually changes</h2></div>
+    <span class="cue">Say</span>
+    <p class="say">Attribution has to start from what the action space could have changed in the first
+      place. If steering the initial noise only produces minor variations of one motion, then even a
+      perfect reward has nothing better to select. So this panel measures three different things:
+      whether candidates fall into distinct kinds, how long an introduced difference survives, and
+      whether the learned reward can be raised at all.</p>
+    <p class="say">First, the vocabulary the paper insists on: a <em class="term">coarse motion
+      pattern</em> is which limbs are active, roughly which directions they move, and the ordering of
+      strokes, holds and retractions over several seconds. That is different from
+      <em class="term">execution detail</em> — the same plan performed bigger, smaller, or slightly
+      earlier. The question is whether steering buys us new patterns or only new executions.</p>
+
+    <!-- ---------------- deep dive: clustering -->
+    <div class="deep">
+      <p class="lede">Panel (a) · the deep one</p>
+      <h3>The clustering test, and why passing it proves nothing</h3>
+      <p class="body">You asked what "mode-free Gaussian data pass the same cluster gate in 99.7&nbsp;%
+        of draws" means. Here it is from the beginning.</p>
+      <ol class="steps body">
+        <li><strong>What we hoped to find.</strong> If the frozen generator offered genuinely different
+          <em>kinds</em> of gesture for one utterance, selection would have something worth choosing.
+          A "kind" would show up as a separate lump of candidates in some motion-representation space.</li>
+        <li><strong>What we ran.</strong> For each of 20 speech clips: take 24 ordinary random
+          candidates, turn each motion into a 512-number embedding, normalize, compress to 10
+          dimensions with PCA, then run k-means for k = 2, 3 and 4, keep whichever k scores best on the
+          <em class="term">silhouette</em> — a standard 0-to-1 measure of how tidy a partition is — and
+          declare "distinct groups" if that best score clears 0.5. All 20 clips cleared it. Naive
+          reading: <em>the generator has a menu of distinct behaviours.</em></li>
+        <li><strong>Why that reading is unsafe.</strong> k-means <em>always</em> returns k groups —
+          it is a partition algorithm, not a detector. The silhouette then measures how compact and
+          separated that partition came out, <strong>not</strong> whether the data contained separate
+          lumps to begin with. With only 24 points in 10 dimensions, a perfectly smooth cloud can be
+          cut into tidy-looking pieces.</li>
+        <li><strong>The control — this is what "mode-free Gaussian data" means.</strong> For each clip
+          we fit <em>one</em> Gaussian to that clip's own 24 embeddings, matching its mean and its full
+          covariance, so the fake cloud has the same size, shape and tilt as the real one. A single
+          Gaussian is one lump by construction: it contains no modes, no groups, nothing to find. We
+          draw 24 fresh points from it and run the <em>identical</em> pipeline. 30 draws per clip,
+          20 clips — 600 draws in all. One "draw" is one synthetic dataset of 24 points.</li>
+        <li><strong>The result — and read the counting carefully.</strong> All 600 of those datasets
+          are group-free; that is 100&nbsp;%, by construction. The 99.7&nbsp;% is how often the
+          <em>test was wrong about them</em>: it declared "separate groups" for <strong>598 of the
+          600</strong>, at essentially the same score it gave our real data — mean silhouette 0.614
+          for the group-free sets against 0.612 for our candidates. Say it as a count, not a rate:
+          <em>"we built 600 datasets with no groups in them, and the test found groups in 598."</em></li>
+        <li><strong>Therefore.</strong> The gate has no discriminating power at this sample size. It
+          says "groups" to data that has none just as readily as to ours, so "20 of 20 clips are
+          multi-mode" carries no evidence about distinct behaviours. Note carefully what this does
+          <em>not</em> say: it does not prove the candidates are one smooth blob. It says this test
+          cannot tell, so we refuse to count it as support.</li>
+      </ol>
+      <p class="body" style="margin-top:14px"><strong>A second, independent line on the same panel's
+        claim.</strong> Even taking the groups at face value, cluster membership explained only about
+        5&nbsp;% of the variance in reward — below the arithmetic chance floor for this number of
+        groups and points — and 0 of 20 clips cleared their own permutation threshold. So the groups
+        do not predict quality either.</p>
+      <p class="body"><strong>How to read the picture.</strong> Top row: our 24 candidates for one
+        utterance, laid out along their main axis of variation and coloured by the group k-means
+        assigned; grouping score 0.58 → "separate groups". Bottom row: 24 points from the group-free
+        cloud, same pipeline; score 0.73 → "separate groups". A one-dimensional view is the honest one
+        here — the candidates spread about 20× further along the first principal component than the
+        second, so the "clusters" are cuts through a single smear.</p>
+      <p class="body"><strong>The one line to say aloud:</strong> <em>"Our clustering said 'four
+        groups'. So did a control built to have none. The test can't tell them apart, so we don't
+        count it as evidence."</em></p>
+    </div>
+
+    <!-- ---------------- deep dive: seed decay -->
+    <div class="deep">
+      <p class="lede">Panel (b) + the filmstrip below it</p>
+      <h3>A different opening pose is forgotten</h3>
+      <p class="body">The <em class="term">opening seed</em> is the short sequence of starting poses
+        that primes the generator at the beginning of a clip — an input GestureLSM inherits from the
+        EMAGE protocol. Change it and the clip starts differently.</p>
+      <p class="body">Three different primes are each compared against the normal one, with the
+        <em>same</em> initial noise, so the opening is the only thing that changed. Each curve is the
+        average distance between the two resulting motions — per frame, per joint, in metres — measured
+        window by window across the six generation windows of a 20-second clip. Window 1 excludes the
+        primed frames themselves, so what is plotted is always <em>generated</em> motion, never the
+        prime we inserted.</p>
+      <p class="body">The three curves are three <em>kinds</em> of alternative opening, not three
+        random ones — that is why there are exactly three:</p>
+      <div class="tw"><table>
+        <thead><tr><th>Curve</th><th>What we primed the generator with</th><th>Why this one</th></tr></thead>
+        <tbody>
+          <tr><td>generated-tail seed</td>
+            <td>The <strong>end of a motion the generator itself produced</strong>, decoded from a noise
+              held out of everything else.</td>
+            <td>Self-consistent by construction — the model cannot complain that the opening is
+              unreachable for it. It is also the largest starting difference of the three.</td></tr>
+          <tr><td>retrieved-clip seed</td>
+            <td>The <strong>real recorded opening of a different recording</strong> — the nearest other
+              clip in the archive, measured in the space of those starting poses.</td>
+            <td>A genuine human opening that belongs to another utterance: plausible motion, wrong
+              context.</td></tr>
+          <tr><td>stillest-clip seed</td>
+            <td>The <strong>quietest real opening in the pool</strong> — an almost motionless starting
+              posture.</td>
+            <td>The extreme case. If any prime were going to change where the clip goes, starting from
+              near-stillness should.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="body">All three collapse onto the same curve within a few windows. The three
+        "OPENING POSE" rows in the filmstrip below the chart are these same three conditions, rendered.</p>
+      <ul class="tight body">
+        <li>Window 1: about <strong>0.06–0.10 m</strong> apart, i.e. 6–10 cm per joint. Clearly visible.</li>
+        <li>Window 4: about <strong>0.01 m</strong>. Already an execution detail.</li>
+        <li>Window 6: about <strong>0.002 m</strong>. Gone.</li>
+      </ul>
+      <p class="body">The shared speech conditioning pulls the motion back onto the same plan within a
+        few windows. The filmstrip underneath is the same finding in pictures: three deliberately
+        different opening poses, same speech, visibly different at 0–3 s and converged by 8 s.</p>
+      <p class="body">The companion number in the bullet is the harder version of the test: instead of
+        changing the start, we interrupt the denoising sequence at an early, middle or late step and
+        restart it from that partly-formed motion with fresh randomness. Even then the outputs reach
+        <strong>at most 0.36×</strong> the spread of ordinary fresh samples. Variation introduced later
+        in generation does not survive any better than variation introduced at the start.</p>
+    </div>
+
+    <!-- ---------------- deep dive: size vs direction -->
+    <div class="deep">
+      <p class="lede">Panel (d)</p>
+      <h3>Noise size versus noise direction</h3>
+      <p class="body">The initial noise is a <strong>vector</strong> — a long list of numbers that the
+        generator turns into motion. Any vector can be changed in exactly two independent ways, and
+        the arrow analogy is the one to use out loud: <strong>how long the arrow is</strong> (its size,
+        magnitude, norm — the poster says "size") and <strong>where it points</strong> (its direction).
+        We tested each freedom separately.</p>
+      <ul class="tight body">
+        <li><strong>Size only</strong> — the policy may stretch or shrink the noise but not re-aim it.
+          It settled on the generator's default length and reproduced the baseline motion. The bar is
+          exactly zero: that freedom carries nothing useful.</li>
+        <li><strong>Direction only</strong> — length pinned at the default, the policy may only re-aim.
+          This raised the learned reward by <strong>+0.60</strong> on speech clips it had never trained
+          on.</li>
+      </ul>
+      <p class="body">So the usable degree of freedom is the direction of the noise, not its scale —
+        the search space is effectively the surface of a sphere, not a radius along it. Say the caveat
+        in the same breath: <em>raising the learned reward is not the same as winning human
+        preference</em> — panel 5 is where that gets tested, and it does not follow.</p>
+    </div>
+
+    <span class="cue q">If asked — so what does steering actually buy you?</span>
+    <p class="body">Reward-relevant <em>local</em> variation, reliably. Distinct better coarse patterns,
+      not demonstrably. In a blind review of four representative boards — each a side-by-side board of
+      candidate videos for one prompt — the candidates were perceived as the same coarse pattern with
+      minor variations.</p>
+  </section>
+
+  <!-- ============================================================ 7 -->
+  <section class="panel" id="p7">
+    <div class="phead"><span class="chip">7</span><h2>What a reward exploit looks like</h2></div>
+    <span class="cue">Say</span>
+    <p class="say">This is the failure mode that makes the whole paper necessary. The reward rises from
+      −127.8 to −107.0 while the motion visibly gets <em>worse</em> — stiff, over-extended arms. It
+      comes from the weight-space era, where a guarded composite reward prevented the catastrophic
+      outputs we had catalogued, and new high-scoring artifacts promptly appeared outside those
+      hand-designed checks.</p>
+    <p class="say">The point for this poster: that is the same fine-ranking regime an optimizer lives
+      in, and it is exactly where a development-set accuracy number stops being evidence.</p>
+  </section>
+
+  <!-- ============================================================ 8 -->
+  <section class="panel" id="p8">
+    <div class="phead"><span class="chip">8</span><h2>Evidence-weighted attribution</h2></div>
+    <span class="cue">Say</span>
+    <p class="say">No single cause explains every observation, so we weigh four candidates by how much
+      direct evidence each one has. The two with the strongest support are the reward's validity after
+      selection and the generator's reachable outputs — and they fail together, which is why we call it
+      a coupled bottleneck rather than a broken optimizer.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Contributor</th><th>Evidence</th><th>Scope</th></tr></thead>
+      <tbody>
+        <tr><td>Reward validity</td><td>Development discrimination improves, but agreement weakens on
+          optimized outputs and best-of-32's gains do not transfer to human preference.</td>
+          <td>Strong. Implies: validate rewards on current-policy candidates.</td></tr>
+        <tr><td>Reachable outputs</td><td>The three measurements in panel 6: transient or local
+          variation, no reliably distinct coarse patterns.</td>
+          <td>Strong — but for this checkpoint only.</td></tr>
+        <tr><td>Optimization</td><td>Direct weight updates drift; one online noise policy fails to learn
+          context-dependent actions. But training-free selection also fails.</td>
+          <td>Contributor, not sole cause.</td></tr>
+        <tr><td>Evaluation</td><td>The main study did detect real human motion (49/51) and still found
+          no policy gain.</td><td>Not the sole cause. Subtle effects still need larger samples.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ============================================================ 9 -->
+  <section class="panel" id="p9">
+    <div class="phead"><span class="chip">9</span><h2>Design gates, and what comes next</h2></div>
+    <span class="cue">Say</span>
+    <p class="say">The contribution is not a method that wins a benchmark — it is an end-to-end
+      diagnosis of how a pipeline can look successful and still fail to improve human judgment. What we
+      can hand the community are gates to check before spending a post-training budget.</p>
+    <ul class="tight body">
+      <li><strong>Validate the reward</strong> on fresh, same-prompt candidates produced by the current
+        optimizer — including candidates that earlier reward versions selected.</li>
+      <li><strong>Verify the generator exposes persistent, perceptually distinct alternatives</strong>
+        before optimizing selection. If the behaviour is absent, widen the generator; don't intensify
+        selection over the same fixed map.</li>
+      <li><strong>Run human studies large enough to detect the effect</strong>, each with a
+        predictable-outcome comparison — real motion versus baseline — to prove the study can detect
+        anything at all.</li>
+      <li><strong>Next: widen the evidence base</strong> — the same controlled study across more
+        speakers and more generators, re-validating the reward on each.</li>
+    </ul>
+    <p class="body" style="margin-top:12px">Closing line worth memorizing: <em>a learned-score gain
+      becomes evidence of perceptual improvement only when the reward stays valid after selection and
+      the generator contains meaningful alternatives to select.</em></p>
+  </section>
+
+  <!-- ============================================================ cross-check -->
+  <section class="panel" id="check">
+    <div class="phead"><span class="chip">✓</span><h2>Cross-check against the camera-ready</h2></div>
+    <p class="body">Everything quoted on the poster, and where it lives in the paper. Three chart
+      values are measurements from the extended write-up that the workshop paper describes in words but
+      does not print as numbers — flagged below so you never attribute a number to a table that
+      doesn't have it.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Poster claim</th><th>Paper location</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>89.6 % vs 71.9 %</td><td>Abstract, Sec. 3.3, Table 2</td><td class="ok">verbatim</td></tr>
+        <tr><td>λ = 0.3; λ = 1.0 did not transfer</td><td>Eq. 3 and Sec. 3.2</td><td class="ok">verbatim</td></tr>
+        <tr><td>±25 frames = ±0.83 s</td><td>Sec. 3.2</td><td class="ok">verbatim</td></tr>
+        <tr><td>49 of 51 preferred real motion</td><td>Sec. 4, Table 3 caption</td><td class="ok">verbatim</td></tr>
+        <tr><td>96 % / 59 % / 48 % / 49 % bars</td><td>Table 3 <em>d</em> values via Φ(<em>d</em>), the
+          approximation used in Sec. 4.1</td><td class="ok">derived, disclosed</td></tr>
+        <tr><td>best-of-32: +0.98 on all 15 prompts</td><td>Sec. 4.2</td><td class="ok">verbatim</td></tr>
+        <tr><td>99.7 % of 600 mode-free draws</td><td>Sec. 5.1</td><td class="ok">verbatim</td></tr>
+        <tr><td>Silhouette values 0.58 / 0.73 in the panel</td><td>not printed in the paper — from the
+          B-6 control run behind Sec. 5.1</td><td class="flag">extended write-up</td></tr>
+        <tr><td>The three named seed conditions</td><td>not named in the paper — Sec. 5.1 says only
+          "changing the opening seed"; the three conditions are the C-1 seed-swap grid behind it</td>
+          <td class="flag">extended write-up</td></tr>
+        <tr><td>Seed-decay curve (0.10 m → 0.002 m)</td><td>Sec. 5.1 states it in words: differences
+          "attenuate within a few generation windows"</td><td class="flag">extended write-up</td></tr>
+        <tr><td>+0.60 direction-only reward gain</td><td>Sec. 5.1 states it in words: direction-only
+          "did raise the learned reward"</td><td class="flag">extended write-up (+0.597)</td></tr>
+        <tr><td>≤ 0.36× branch spread</td><td>Sec. 5.1</td><td class="ok">verbatim</td></tr>
+        <tr><td>19–23 of 256 codes; 8–15× FGD</td><td>Sec. 2.1, Table 1</td><td class="ok">verbatim</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><b>One wording note.</b> The paper's Sec. 5.1 calls the two knobs the noise's
+      <em>size</em> and its <em>direction</em>; an earlier draft of the figure said "radius". The
+      poster now says <strong>size</strong> everywhere, so the poster and the paper match.</div>
+    <div class="note"><b>Do not over-claim panel 6.</b> The paper's own limitation sentence is that all
+      of this is measured for one speaker, one checkpoint, the tested prompts, and the ranges we swept.
+      Panel 9's fourth bullet is where that goes if someone presses.</div>
+  </section>
+
+  <!-- ============================================================ faq -->
+  <section class="panel" id="faq">
+    <div class="phead"><span class="chip">?</span><h2>The questions you will actually get</h2></div>
+    <details open>
+      <summary>"So this is a negative result?"</summary>
+      <p>It's a diagnosis, and the diagnosis is the contribution. We traced one failure across reward
+        validity, reachable generator variation, optimizer behaviour and evaluation sensitivity inside
+        a single controlled pipeline — and each stage carries a check other groups can run before
+        spending their compute. The negative outcome is what makes the checks credible.</p>
+    </details>
+    <details>
+      <summary>"So you are saying the two systems are the same?"</summary>
+      <p>Be careful about what "the same" ranges over. The tested system and the baseline share the
+        same frozen generator weights, the same speech input, the same decoder and window chaining,
+        and the same catastrophic filter. <strong>The one thing that differs is which initial noise
+        vector goes in</strong> — drawn blindly for the baseline, chosen by the trained policy for
+        the tested system. So "the same" is a statement about one specific thing: <em>choosing the
+        noise carefully instead of drawing it blindly bought nothing a viewer can see.</em></p>
+      <p>Three layers have to stay separate here, and only the third came out flat:</p>
+      <ul class="tight">
+        <li>The noise changed — by construction, and the motions are visibly different. Our own
+          filmstrips show that.</li>
+        <li>The learned reward changed — measurably. Best-of-32 raised it by +0.98 on all 15 held-out
+          prompts.</li>
+        <li>Human judgment did not change — 23 participants leaned one way, 23 the other.</li>
+      </ul>
+      <p>So the claim is not "the policy did nothing" and not "the generator produces one motion".
+        It is that the differences it produces have no preferred direction: sometimes the policy's
+        take looks slightly better, sometimes the baseline's, and across 51 people they cancel. What
+        a real difference looks like in this same instrument is the control — 49 against 2.</p>
+      <p>And the scope is narrow on purpose: the same to <em>these</em> participants, on 20-second
+        clips, asked which they <em>prefer overall</em>. A different question — "which is more
+        energetic?" — might well separate them. We also never proved equality; we failed to find a
+        difference, with enough participants to rule out an effect the size the pilots claimed.</p>
+    </details>
+
+    <details>
+      <summary>"Wouldn't a better reward fix it?"</summary>
+      <p>Possibly — but our data cannot decide that, and I'd rather say so. The three open questions we
+        state explicitly: whether substantially more on-policy preference data would make this frozen
+        generator steerable, whether a perfect reward would succeed inside the same reachable set, and
+        whether the current reward would succeed on a broader generator. What we can say is that
+        increasing selection pressure alone did not compensate for either limit.</p>
+    </details>
+    <details>
+      <summary>"Why freeze the generator? That's a big handicap."</summary>
+      <p>Because unfreezing it failed first, and failed in a way that was hard to detect: the reward
+        rose while the distribution drifted 8–15× in FGD. Freezing turns the two hidden assumptions
+        into testable questions. It is a diagnostic boundary, not a claim that frozen is the right way
+        to build a system.</p>
+    </details>
+    <details>
+      <summary>"Only one speaker and one generator?"</summary>
+      <p>Yes — one BEAT2 speaker, one GestureLSM shortcut checkpoint, and the recruited participant
+        groups, and I wouldn't generalize the reachability finding past that checkpoint. Widening the
+        evidence base across more speakers and more generators, re-validating the reward on each, is
+        the next step on the poster.</p>
+    </details>
+    <details>
+      <summary>"Your 89.6 % benchmark — is that a clean test set?"</summary>
+      <p>No, and the paper says so in its limitations. The 709-pair development set was inspected while
+        the reward was being built, so 89.6 % measures discrimination on data that guided the design.
+        That is precisely why the poster puts development accuracy and post-selection agreement in the
+        same table.</p>
+    </details>
+    <details>
+      <summary>Timing — 5 minutes vs 10</summary>
+      <p><strong>5 min:</strong> panel 1 (the two questions) → panel 3 (the equation and the reachable
+        set) → panel 5 (the bar chart and the 49/51 control) → panel 6, panel (a) only → panel 9.
+        <br><strong>10 min:</strong> add panel 2 (why we ended up frozen), panel 4 (Table 2's five
+        populations and the usage rule), the rest of panel 6, and panel 7's exploit filmstrip.</p>
+    </details>
+  </section>
+
+  <footer>
+    Built from <code>eccv_isa_paper/main_short.tex</code> (camera-ready) and the poster generator in
+    <code>eccv_isa_paper/poster/</code>. Numbers behind the tables and charts live in
+    <code>poster_data.py</code>, each with its source; the clustering panel is regenerated by
+    <code>extract_cluster_data.py</code>.
+  </footer>
+  </main>
+</div>
+
+<script>
+  // a saved-to-PDF copy is the offline fallback, so every collapsed answer must be visible
+  addEventListener("beforeprint", () => document.querySelectorAll("details").forEach(d => {
+    d.dataset.wasOpen = d.open ? "1" : ""; d.open = true;
+  }));
+  addEventListener("afterprint", () => document.querySelectorAll("details").forEach(d => {
+    d.open = d.dataset.wasOpen === "1";
+  }));
+</script>
+</body>
+</html>
