@@ -60,6 +60,10 @@ a{color:var(--blue)}
 .mast .wrap{padding-top:38px; padding-bottom:30px}
 .kicker{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12px; letter-spacing:.14em;
   text-transform:uppercase; color:var(--blue); margin-bottom:12px}
+.session{display:flex; flex-wrap:wrap; gap:6px 18px; align-items:baseline; margin:0 0 16px;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:13px; letter-spacing:.04em; color:var(--muted)}
+.session b{color:var(--navy); font-weight:600}
+.session .budget{color:var(--warn); font-weight:600}
 h1{font-size:clamp(30px,4.4vw,46px); line-height:1.14; letter-spacing:-.01em}
 .mast p.sub{margin:12px 0 0; max-width:62ch; color:var(--muted); font-size:18px}
 .spine{margin-top:26px; background:var(--card); border:1px solid var(--line); border-radius:3px;
@@ -168,6 +172,16 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
 <div class="mast">
   <div class="wrap">
     <div class="kicker">ECCV 2026 · Malmö · Workshop on Interactive Social Avatars</div>
+    <div class="session en">
+      <span><b>Poster session</b> 10:00 – 10:30 · MalmöMässan Exhibit Hall</span>
+      <span class="budget">5–10 minutes per walkthrough — the organisers' guidance</span>
+      <span>140 × 100 cm landscape</span>
+    </div>
+    <div class="session ko">
+      <span><b>포스터 세션</b> 10:00 – 10:30 · MalmöMässan Exhibit Hall</span>
+      <span class="budget">한 사람당 5–10분 — 주최 측 안내</span>
+      <span>140 × 100 cm 가로</span>
+    </div>
     <h1>Why Is Human-Preference Optimization Difficult for Co-Speech Gesture Generation?</h1>
     <p class="sub en">A panel-by-panel script for the 140 × 100 cm poster, with the reading of every
       chart and the answers to the questions the charts invite. Everything here is checked against
