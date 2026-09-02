@@ -286,7 +286,8 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
 
     <li><span class="t">1:30</span><span class="p">Panel 4</span>
       <p>The reward reads one motion and its own audio — no reference motion — and combines two axes.
-        Naturalness is a Bradley–Terry scorer plus a DSTformer realism logit. Alignment matches wrist
+        Naturalness is a Bradley–Terry scorer plus a DSTformer realism logit trained on synthetic
+        corruptions and GENEA-leaderboard preference data. Alignment matches wrist
         and elbow strokes to speech onsets, with up to ±0.83 seconds of lag allowed. On the pairs we
         built it with, it agrees with our labels 89.6 % of the time. On pairs shown to real study
         participants that drops to 60.7 % — above chance, but far from a reliable ranker. And 65 % of a
@@ -307,8 +308,10 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
         can detect a difference when there is one. The orange bars are our tuned policies: 49 %, 48 %,
         59 %, and every interval crosses the even-split line. The sharpest way to say it: 23
         participants leaned toward our policy and 23 toward the baseline. And a training-free control
-        removes the "maybe the training was bad" objection — simply keeping the best of 32 random noises
-        by reward raises the reward on all 15 held-out prompts and still wins no preference.</p></li>
+        removes the "maybe the training was bad" objection — <em>winner selection</em>, just keeping the
+        best of 32 random noises by reward with no policy trained, raises the reward on all 15 held-out
+        prompts and still wins no preference. Winner <em>imitation</em> is the trained version of the
+        same idea; winner <em>selection</em> is the same idea with the training removed.</p></li>
 
     <li class="ext"><span class="t">+1:00</span><span class="p">Table 3</span>
       <p>The <em>d</em> column is Cohen's <em>d</em>: mean preference divided by how much participants
@@ -337,7 +340,8 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
     <li><span class="t">4:20</span><span class="p">Panels 7–8</span>
       <p>And the reward side — Panel 7 is what an exploit looks like: from an earlier weight-space run,
         same prompt, the reward rises from −128 to −107 while the motion gets stiff and over-extended.
-        Put together, two limits fail at once: the reward loses its fine ordering on exactly the
+        Being right on the pairs it was built on did not make the reward a valid ranker of what it
+        selects. Put together, two limits fail at once: the reward loses its fine ordering on exactly the
         outputs it selected, and the generator does not offer a distinctly better candidate to select.
         That is the coupled bottleneck.</p></li>
 
@@ -347,14 +351,20 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
         transient and local variation only — strong, for this checkpoint. Optimization: weight updates
         drift and one noise policy never learned context — a contributor, but selection with no
         training fails too. Evaluation: the same study caught real motion at 49 to 2, so the study is
-        not the reason. The first two carry the result.</p></li>
+        not the reason. The first two carry the result. One honest caveat on the second: this is a
+        <em>shortcut</em> checkpoint — a few-step decoder — and few-step decoders are known to collapse
+        toward the mode. Whether a full multi-step generator exposes more distinct alternatives is
+        exactly the thing we have not tested yet.</p></li>
 
     <li><span class="t">4:45</span><span class="p">Panel 9</span>
       <p>What we hand you are three gates. Validate the reward on fresh, same-prompt outputs from the
         current optimizer. Verify the generator actually exposes distinct alternatives before you
         optimize selection — otherwise widen what it can reach. And run human studies large enough,
-        with a known-outcome control, before believing a learned-score gain. Thanks — the videos are
-        behind the QR code.</p></li>
+        with a known-outcome control, before believing a learned-score gain. What we do next follows
+        from that: swap in a multi-step, non-shortcut generator and re-run the same reachability
+        diagnostics; repeat the study on more speakers; and re-validate the reward on each generator's
+        own fresh candidates rather than reusing this one. Thanks — the videos are behind the QR
+        code.</p></li>
   </ol>
 
   <!-- ================================================================ KO -->
@@ -382,7 +392,7 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
 
     <li><span class="t">1:30</span><span class="p">패널 4</span>
       <p>Reward는 동작 하나와 그 audio만 읽고 — 참조 동작 없이 — 두 축을 합칩니다. Naturalness는 Bradley–Terry scorer와
-        DSTformer realism logit. Alignment는 손목·팔꿈치 stroke를 speech onset에 맞추되 최대 ±0.83초의 lag를 허용합니다.
+        synthetic corruption·GENEA leaderboard preference 데이터로 학습한 DSTformer realism logit. Alignment는 손목·팔꿈치 stroke를 speech onset에 맞추되 최대 ±0.83초의 lag를 허용합니다.
         만들 때 쓴 pair에서는 저희 라벨과 89.6 % 일치합니다. 실제 실험 참가자에게 보여 준 pair에서는 60.7 %로 떨어집니다 —
         우연보다는 높지만 믿을 만한 ranker와는 거리가 멉니다. 그리고 점수 분산의 65 %가 그냥 "어느 클립이냐"라서, 클립이
         다르면 점수를 비교할 수 없습니다 — 같은 speech의 후보들끼리만 순위를 매겨야 합니다.</p></li>
@@ -398,8 +408,9 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
         비교는 같은 untrained baseline과입니다. 초록 막대가 대조군 — 실제 모캡 — 이고 51명 중 49명이 그걸 골랐으니, 차이가
         있으면 이 실험이 감지합니다. 주황 막대가 저희 튜닝된 정책들: 49 %, 48 %, 59 %, 구간이 전부 무승부선을 지납니다. 가장
         날카롭게 말하면: 23명은 저희 정책 쪽, 23명은 baseline 쪽으로 기울었습니다. 그리고 학습 없는 대조 실험이 "학습이
-        잘못됐나 보다"라는 반론을 없앱니다 — 무작위 noise 32개 중 reward 최고를 고르기만 해도 held-out prompt 15개 전부에서
-        reward가 오르는데, 그래도 선호를 얻지 못합니다.</p></li>
+        잘못됐나 보다"라는 반론을 없앱니다 — <em>winner selection</em>, 즉 policy 학습 없이 무작위 noise 32개 중 reward
+        최고를 고르기만 해도 held-out prompt 15개 전부에서 reward가 오르는데, 그래도 선호를 얻지 못합니다. winner
+        <em>imitation</em>은 같은 아이디어의 학습된 버전이고, winner <em>selection</em>은 학습을 뺀 버전입니다.</p></li>
 
     <li class="ext"><span class="t">+1:00</span><span class="p">Table 3</span>
       <p><em>d</em> 열은 Cohen's <em>d</em>: 평균 선호를 참가자들이 서로 엇갈리는 정도로 나눈 것이라, 0이 무승부고 막대는
@@ -423,19 +434,25 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
 
     <li><span class="t">4:20</span><span class="p">패널 7–8</span>
       <p>그리고 reward 쪽 — 패널 7이 exploit의 모습입니다: 이전 weight-space run, 같은 prompt에서 reward는 −128에서 −107로
-        오르는데 동작은 뻣뻣하고 과도하게 뻗어 갑니다. 합치면, 두 한계가 동시에 실패합니다: reward는 자기가 고른 출력에서 fine
+        오르는데 동작은 뻣뻣하고 과도하게 뻗어 갑니다. 만들 때 쓴 pair에서 맞았다고 해서, 자기가 고른 출력을 제대로 순위
+        매기는 건 아니었습니다. 합치면, 두 한계가 동시에 실패합니다: reward는 자기가 고른 출력에서 fine
         ordering을 잃고, generator는 고를 만한 확연히 더 나은 후보를 제공하지 않습니다. 그게 coupled bottleneck입니다.</p></li>
 
     <li class="ext"><span class="t">+1:00</span><span class="p">패널 8</span>
       <p>가능한 원인 넷을 저울질했습니다. Reward validity: 만든 곳에서는 강하고, 선택된 출력에서는 약하고, 학습 없는 이득은
         전이되지 않음 — 강한 근거. Reachable outputs: 일시적·국소적 변이뿐 — 이 checkpoint에 한해 강함. Optimization:
         가중치 업데이트는 drift하고 한 noise policy는 맥락을 못 배움 — 기여 요인이지만 학습 없는 선택도 실패함. Evaluation:
-        같은 실험이 실제 동작을 49 대 2로 잡아냈으니 실험은 이유가 아님. 앞의 둘이 결과를 떠받칩니다.</p></li>
+        같은 실험이 실제 동작을 49 대 2로 잡아냈으니 실험은 이유가 아님. 앞의 둘이 결과를 떠받칩니다. 둘째에 붙는 정직한
+        단서 하나: 이건 <em>shortcut</em> checkpoint — few-step decoder — 이고, few-step decoder는 mode 쪽으로 무너지는
+        경향이 알려져 있습니다. 완전한 multi-step generator가 더 구분되는 대안을 노출하는지가 바로 아직 시험하지 않은
+        것입니다.</p></li>
 
     <li><span class="t">4:45</span><span class="p">패널 9</span>
       <p>저희가 드리는 건 게이트 셋입니다. 현재 optimizer가 만든 신선한 같은-prompt 출력 위에서 reward를 검증하라. 선택을
         최적화하기 전에 generator가 정말 구분되는 대안을 노출하는지 확인하라 — 아니면 도달 범위를 넓혀라. 그리고 학습된 점수의
-        상승을 믿기 전에, 결과를 아는 대조군을 넣은 충분히 큰 사람 실험을 하라. 감사합니다 — 영상은 QR 뒤에 있습니다.</p></li>
+        상승을 믿기 전에, 결과를 아는 대조군을 넣은 충분히 큰 사람 실험을 하라. 다음 할 일은 거기서 따라 나옵니다: multi-step,
+        non-shortcut generator로 바꿔 같은 reachability 진단을 다시 돌리고, 더 많은 화자로 실험을 반복하고, 이 reward를
+        재사용하는 대신 각 generator의 신선한 후보 위에서 reward를 다시 검증하는 것. 감사합니다 — 영상은 QR 뒤에 있습니다.</p></li>
   </ol>
 </section>
 </div>
@@ -1092,6 +1109,16 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
         the reward was being built, so 89.6 % measures discrimination on data that guided the design.
         That is precisely why the poster puts development accuracy and post-selection agreement in the
         same table.</p>
+    </details>
+    <details>
+      <summary>Who to talk to — the GENEA people</summary>
+      <p>Your advisor has briefed the GENEA-leaderboard group on what the poster says, and the reward's
+        realism component is trained on their preference data, so they are the natural discussion.
+        Gustav Henter has been making a closely related argument and is said to be interested — and
+        approachable. The two things worth putting to them: whether GENEA-style pairwise preference
+        data can be made to transfer to <em>optimized</em> outputs of one generator, and whether they
+        have seen a multi-step generator expose distinct alternatives where our shortcut checkpoint
+        did not.</p>
     </details>
     <details>
       <summary>Timing — 5 minutes vs 10</summary>
