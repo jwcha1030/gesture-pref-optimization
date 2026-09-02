@@ -344,13 +344,15 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
           the 1,413 shown pairs where the two picks <strong>match</strong> — 50 % would be chance.
           (Naturalness 60.6 %, alignment 60.7 %.) The unit is a shown pair, not a participant.</td>
           <td>Real but only above chance: local ordering, not a ranking guarantee.</td></tr>
-        <tr><td>≈ 53 % (n = 360)</td><td>The same agreement measure, on the 360 pairs of the last study
+        <tr><td>≈ 53 % (n = 360) — <em>not on the poster</em></td><td>The same agreement measure, on the 360 pairs of the last study
           we ran (10 participants × 36 comparisons), which tested the two remaining mechanisms:
           <strong>shell-then-direction</strong> (direction learned, magnitude frozen) and
           <strong>elite-refit at K = 64</strong> (winner imitation at the widest search). Their motion sits
           especially close to the untrained baseline. Naturalness 54 %, alignment 53 %.</td>
-          <td>Chance. And this is the regime optimization actually operates in — every candidate a noise
-          policy chooses among is a near-baseline output of the same frozen generator for the same prompt.</td></tr>
+          <td>Consistent with chance — but 360 pairs from only 10 people is an effective sample of
+          roughly 80–200, so its interval (about 42–64 %) cannot separate it from the 60.7 % above. It
+          was dropped from the board as the most attackable number on it; use it only as background
+          for "the near-baseline regime is where optimization operates".</td></tr>
         <tr><td>65 % variance</td><td>Not an accuracy at all — a variance decomposition. Score 24 candidates
           for each of 20 speech clips, then ask how much of the total spread in naturalness scores is
           explained by <strong>which clip it is</strong> rather than by which candidate. Answer: 65 %.</td>
@@ -930,8 +932,8 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
           <td>이미 알고 있던 exploit 종류는 이 reward가 덮습니다.</td></tr>
         <tr><td>60.7 % (n = 1,413)</td><td>51명 본 실험의 모든 페이지가 동작 두 개를 보여 주고 참가자가 하나를 골랐습니다. reward도 둘 다 채점하니 자기 선택이 있죠. 이건 보여 준 1,413개 pair 중 두 선택이 <strong>일치한</strong> 비율입니다 — 50 %가 우연 수준. (naturalness 60.6 %, alignment 60.7 %.) 단위는 참가자가 아니라 보여 준 pair 하나입니다.</td>
           <td>실재하지만 above-chance 수준. 국소적 순서지 순위 보장이 아닙니다.</td></tr>
-        <tr><td>≈ 53 % (n = 360)</td><td>같은 일치율을, 마지막으로 돌린 실험의 360개 pair(참가자 10명 × 36개 비교)에 적용한 것. 이 실험은 남은 두 mechanism을 시험했습니다 — <strong>shell-then-direction</strong>(방향은 학습, 크기는 고정)과 <strong>elite-refit K = 64</strong>(가장 넓은 search에서의 winner imitation). 이 둘의 동작은 untrained baseline과 특히 가깝습니다. naturalness 54 %, alignment 53 %.</td>
-          <td>우연 수준. 그리고 optimization이 실제로 작동하는 구간이 바로 여기입니다 — noise policy가 고르는 후보는 전부 같은 prompt에 대한 같은 얼린 generator의 near-baseline 출력이니까요.</td></tr>
+        <tr><td>≈ 53 % (n = 360) — <em>포스터에는 없음</em></td><td>같은 일치율을, 마지막으로 돌린 실험의 360개 pair(참가자 10명 × 36개 비교)에 적용한 것. 이 실험은 남은 두 mechanism을 시험했습니다 — <strong>shell-then-direction</strong>(방향은 학습, 크기는 고정)과 <strong>elite-refit K = 64</strong>(가장 넓은 search에서의 winner imitation). 이 둘의 동작은 untrained baseline과 특히 가깝습니다. naturalness 54 %, alignment 53 %.</td>
+          <td>우연과 일치 — 하지만 참가자 10명의 360 pair는 유효 표본이 약 80~200이라 구간(약 42~64 %)이 위의 60.7 %와 구별되지 않습니다. 보드에서 가장 공격받기 쉬운 숫자라 포스터에서 뺐습니다. "near-baseline 구간이 optimization이 작동하는 곳"이라는 배경 설명용으로만 쓰세요.</td></tr>
         <tr><td>65 % variance</td><td>정확도가 아니라 분산 분해입니다. 20개 speech clip 각각에 후보 24개를 채점한 뒤, naturalness 점수의 전체 퍼짐 중 <strong>어느 클립이냐</strong>가 설명하는 비율이 얼마인지 묻습니다. 답은 65 %.</td>
           <td>raw 점수는 전역 효용이 아닙니다. 클립 A의 점수와 클립 B의 점수를 비교할 수 없습니다 — 사용 규칙이 여기서 나옵니다.</td></tr>
       </tbody>
