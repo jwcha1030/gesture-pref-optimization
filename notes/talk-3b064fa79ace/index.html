@@ -151,6 +151,32 @@ td.num-c{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-num
   font-size:15.5px; box-shadow:var(--shadow)}
 .note b{color:var(--warn)}
 
+/* ---------------------------------------------------------------- the talk */
+.talk{margin:0 0 40px; background:var(--card); border:1px solid var(--line); border-radius:3px;
+  box-shadow:var(--shadow); padding:26px 28px 18px}
+.talk-head h2{font-size:clamp(22px,2.6vw,30px); margin:6px 0 8px}
+.talk-note{color:var(--muted); font-size:15px; margin:0 0 6px; max-width:78ch}
+.talk-note b{color:var(--warn)}
+.script{list-style:none; margin:14px 0 0; padding:0}
+.script li{display:grid; grid-template-columns:56px 84px minmax(0,1fr); gap:0 16px; align-items:start;
+  padding:14px 0; border-top:1px solid var(--rule)}
+.script li:first-child{border-top:none}
+.script .t{font-family:"IBM Plex Mono",monospace; font-size:13px; font-weight:600; color:var(--navy);
+  font-variant-numeric:tabular-nums; padding-top:4px}
+.script .p{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--blue); padding-top:5px}
+.script p{margin:0; font-size:18px; line-height:1.62; max-width:none}
+.script li.ext{background:var(--pale); margin:0 -28px; padding:14px 28px; border-top:1px dashed var(--line)}
+.script li.ext .t{color:var(--warn)}
+.script li.ext p{font-size:16.5px; color:var(--ink)}
+@media (max-width:640px){
+  .script li{grid-template-columns:48px minmax(0,1fr)}
+  .script .p{grid-column:2; padding-top:0; margin-bottom:4px}
+  .script p{grid-column:2}
+  .script li.ext{margin:0 -16px; padding:14px 16px}
+  .talk{padding:20px 16px 12px}
+}
+
 footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); color:var(--muted); font-size:14px}
 :focus-visible{outline:2px solid var(--blue); outline-offset:2px}
 
@@ -217,9 +243,207 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
   </div>
 </div>
 
+<div class="wrap">
+<section class="talk" id="talk">
+  <div class="talk-head">
+    <span class="cue" style="margin:0">The talk</span>
+    <h2 class="en">Five minutes, said out loud — with five more if they stay</h2>
+    <h2 class="ko">5분 발표 대본 — 관심을 보이면 5분 더</h2>
+    <p class="talk-note en">Read the timed blocks straight through for the five-minute version (≈620 words at a
+      speaking pace). The shaded <b>+</b> blocks are optional: drop any of them in where marked and the
+      talk grows to ten. Point at the panel named on the left.</p>
+    <p class="talk-note ko">시간 표시가 있는 블록을 그대로 읽으면 5분입니다(약 620단어, 말하기 속도 기준). 음영 처리된
+      <b>+</b> 블록은 선택 — 표시된 자리에 끼워 넣으면 10분이 됩니다. 왼쪽에 적힌 패널을 가리키면서 말하세요.</p>
+  </div>
+
+  <!-- ================================================================ EN -->
+  <ol class="script en">
+    <li><span class="t">0:00</span><span class="p">Panel 1</span>
+      <p>Thanks for stopping. One sentence on the problem: a speech recording is not a unique label
+        for gesture — the same sentence could be delivered with a different, equally natural motion.
+        Supervised training copies the one motion that happened to be captured, so every other valid
+        gesture goes unrewarded. Preference learning promises a way out: generate several candidates,
+        ask people which they prefer, push toward what they choose. We asked whether that actually
+        improves a strong pretrained gesture generator. It did not — and this poster is the diagnosis
+        of why.</p></li>
+
+    <li class="ext"><span class="t">+1:00</span><span class="p">Panel 2</span>
+      <p>We did not start with a frozen generator; we ended there. First we ran preference updates on
+        EMAGE, which generates from discrete motion codes — the checkpoint we had used only 19 to 23
+        of its 256 codes per body part, so there was almost nothing to rank. Then GestureLSM with
+        Flow-GRPO, updating the weights: without a KL anchor it drifted out of the pretrained
+        distribution, 8 to 15 times worse FGD, with exaggerated motion even as the reward rose. So we
+        froze the weights and asked what choosing the input alone could do.</p></li>
+
+    <li><span class="t">0:45</span><span class="p">Panel 3</span>
+      <p>Here is the setting. Our generator is a flow-matching model: it turns speech context plus a
+        random initial noise into motion. We freeze it completely and change only the noise. So a
+        candidate is <em>m<sub>i</sub> = G(c, w<sub>i</sub>)</em>, and everything the generator can
+        produce for this speech is the reachable set <em>M<sub>c</sub></em>. A policy can only re-weight
+        inside that set — it can never step outside it. That turns the whole project into two
+        questions: does the reward rank candidates the way people do? And does the frozen generator
+        even contain a meaningfully better candidate to pick?</p></li>
+
+    <li><span class="t">1:30</span><span class="p">Panel 4</span>
+      <p>The reward reads one motion and its own audio — no reference motion — and combines two axes.
+        Naturalness is a Bradley–Terry scorer plus a DSTformer realism logit. Alignment matches wrist
+        and elbow strokes to speech onsets, with up to ±0.83 seconds of lag allowed. On the pairs we
+        built it with, it agrees with our labels 89.6 % of the time. On pairs shown to real study
+        participants that drops to 60.7 % — above chance, but far from a reliable ranker. And 65 % of a
+        score's variance is simply which clip it is, so scores from different clips cannot be compared
+        at all — you may only rank candidates for the same speech.</p></li>
+
+    <li class="ext"><span class="t">+1:00</span><span class="p">Table 2</span>
+      <p>Read the table top to bottom. Row one is the reward on the pairs it was built with — 89.6 %.
+        Row two, pairs containing an exploit we had already catalogued — 100 %, but that is a closed
+        list. Row three is the honest number: on 1,413 pairs real participants judged, the reward's
+        pick matched theirs 60.7 % of the time. Row four is a different kind of measurement — a
+        variance decomposition — and it is why we insist on within-prompt ranking only.</p></li>
+
+    <li><span class="t">2:30</span><span class="p">Panel 5</span>
+      <p>Now the test that matters. Fifty-one participants on Prolific; two 20-second videos per page
+        with the same audio; pick one. Every comparison is against the same untrained baseline. The
+        green bar is the control — real motion capture — and 49 of 51 people preferred it, so the study
+        can detect a difference when there is one. The orange bars are our tuned policies: 49 %, 48 %,
+        59 %, and every interval crosses the even-split line. The sharpest way to say it: 23
+        participants leaned toward our policy and 23 toward the baseline. And a training-free control
+        removes the "maybe the training was bad" objection — simply keeping the best of 32 random noises
+        by reward raises the reward on all 15 held-out prompts and still wins no preference.</p></li>
+
+    <li class="ext"><span class="t">+1:00</span><span class="p">Table 3</span>
+      <p>The <em>d</em> column is Cohen's <em>d</em>: mean preference divided by how much participants
+        disagree with each other, so zero is an even split and the bars are just <em>d</em> read as a
+        share of people. The K = 64 row is the one with a positive estimate, +0.23, but that study had
+        30 people and would need about 150 to resolve an effect that size — so it is inconclusive, not a
+        win. We do not claim the systems are equivalent; we claim no reliable advantage was found.</p></li>
+
+    <li><span class="t">3:30</span><span class="p">Panel 6</span>
+      <p>So why? Panel 6 measures what noise steering can even change. (a) We clustered 24 candidates
+        per utterance and the test said "four groups" — but a control built with no groups at all got
+        the same verdict 598 times out of 600. So that is not evidence of distinct gesture kinds. (b) A
+        deliberately different opening pose is forgotten within a few windows — the filmstrip shows
+        three different starts converging by eight seconds. (c) Changing the noise's magnitude does
+        nothing; only its direction moves the reward. Takeaway: for this checkpoint, steering changes
+        execution details, not coarse patterns.</p></li>
+
+    <li class="ext"><span class="t">+1:00</span><span class="p">Panel 6a</span>
+      <p>The clustering control deserves a sentence, because people usually trust clusters. k-means
+        always returns groups; the score only says how tidy the cut is, not whether lumps existed. So
+        we fit one Gaussian — one lump by construction — to each clip's own candidates, drew 24 fresh
+        points, and ran the identical pipeline 600 times. It found "groups" in 598 of them, with a
+        better score than our real data. A test that cannot tell a lump from a menu is not evidence of
+        a menu.</p></li>
+
+    <li><span class="t">4:20</span><span class="p">Panels 7–8</span>
+      <p>And the reward side — Panel 7 is what an exploit looks like: from an earlier weight-space run,
+        same prompt, the reward rises from −128 to −107 while the motion gets stiff and over-extended.
+        Put together, two limits fail at once: the reward loses its fine ordering on exactly the
+        outputs it selected, and the generator does not offer a distinctly better candidate to select.
+        That is the coupled bottleneck.</p></li>
+
+    <li class="ext"><span class="t">+1:00</span><span class="p">Panel 8</span>
+      <p>We weighed four possible causes. Reward validity: strong where we built it, weak on selected
+        outputs, and the training-free gain does not transfer — strong evidence. Reachable outputs:
+        transient and local variation only — strong, for this checkpoint. Optimization: weight updates
+        drift and one noise policy never learned context — a contributor, but selection with no
+        training fails too. Evaluation: the same study caught real motion at 49 to 2, so the study is
+        not the reason. The first two carry the result.</p></li>
+
+    <li><span class="t">4:45</span><span class="p">Panel 9</span>
+      <p>What we hand you are three gates. Validate the reward on fresh, same-prompt outputs from the
+        current optimizer. Verify the generator actually exposes distinct alternatives before you
+        optimize selection — otherwise widen what it can reach. And run human studies large enough,
+        with a known-outcome control, before believing a learned-score gain. Thanks — the videos are
+        behind the QR code.</p></li>
+  </ol>
+
+  <!-- ================================================================ KO -->
+  <ol class="script ko">
+    <li><span class="t">0:00</span><span class="p">패널 1</span>
+      <p>들러 주셔서 감사합니다. 문제를 한 문장으로: 음성 녹음은 gesture의 정답표가 아닙니다 — 같은 문장을 다른, 그러나
+        똑같이 자연스러운 동작으로 말할 수 있죠. Supervised 학습은 우연히 캡처된 하나의 동작을 베끼기 때문에 나머지 타당한
+        gesture는 전부 보상받지 못합니다. Preference learning은 출구를 약속합니다 — 후보를 여러 개 만들고, 사람에게 어느
+        쪽이 좋은지 묻고, 고른 쪽으로 밀어 주는 것. 저희는 그게 강력한 pretrained gesture generator를 실제로 개선하는지
+        물었습니다. 아니었습니다 — 이 포스터는 그 이유의 진단입니다.</p></li>
+
+    <li class="ext"><span class="t">+1:00</span><span class="p">패널 2</span>
+      <p>얼린 generator에서 시작한 게 아니라 거기서 끝났습니다. 처음엔 이산 motion code로 생성하는 EMAGE에 preference
+        update를 돌렸는데, 저희 checkpoint는 body part당 256개 중 19~23개 code만 쓰고 있어서 순위 매길 게 거의
+        없었습니다. 다음은 GestureLSM에 Flow-GRPO로 가중치를 업데이트했는데, KL anchor 없이는 pretrained 분포를 벗어났고
+        — FGD 8~15배 악화 — reward가 오르는데도 동작이 과장됐습니다. 그래서 가중치를 얼리고, 입력을 고르는 것만으로 무엇을
+        할 수 있는지 물었습니다.</p></li>
+
+    <li><span class="t">0:45</span><span class="p">패널 3</span>
+      <p>설정입니다. 저희 generator는 flow-matching 모델로, speech context와 무작위 initial noise를 동작으로 바꿉니다.
+        저희는 이걸 완전히 얼리고 noise만 바꿉니다. 그러니 후보는 <em>m<sub>i</sub> = G(c, w<sub>i</sub>)</em>이고, 이
+        speech에 대해 generator가 만들 수 있는 전부가 reachable set <em>M<sub>c</sub></em>입니다. Policy는 그 집합
+        안에서 재분배만 할 수 있지 밖으로 나갈 수 없습니다. 그러면 프로젝트 전체가 두 질문이 됩니다: reward가 후보를 사람처럼
+        순위 매기는가? 그리고 얼린 generator 안에 고를 만한 의미 있게 더 나은 후보가 있기는 한가?</p></li>
+
+    <li><span class="t">1:30</span><span class="p">패널 4</span>
+      <p>Reward는 동작 하나와 그 audio만 읽고 — 참조 동작 없이 — 두 축을 합칩니다. Naturalness는 Bradley–Terry scorer와
+        DSTformer realism logit. Alignment는 손목·팔꿈치 stroke를 speech onset에 맞추되 최대 ±0.83초의 lag를 허용합니다.
+        만들 때 쓴 pair에서는 저희 라벨과 89.6 % 일치합니다. 실제 실험 참가자에게 보여 준 pair에서는 60.7 %로 떨어집니다 —
+        우연보다는 높지만 믿을 만한 ranker와는 거리가 멉니다. 그리고 점수 분산의 65 %가 그냥 "어느 클립이냐"라서, 클립이
+        다르면 점수를 비교할 수 없습니다 — 같은 speech의 후보들끼리만 순위를 매겨야 합니다.</p></li>
+
+    <li class="ext"><span class="t">+1:00</span><span class="p">Table 2</span>
+      <p>표는 위에서 아래로 읽으시면 됩니다. 1행은 만들 때 쓴 pair에서의 reward — 89.6 %. 2행은 이미 목록화한 exploit이
+        들어 있는 pair — 100 %지만 닫힌 목록입니다. 3행이 정직한 숫자입니다: 실제 참가자가 판단한 1,413개 pair에서 reward의
+        선택이 사람과 일치한 게 60.7 %. 4행은 종류가 다른 측정 — 분산 분해 — 이고, 같은 prompt 안에서만 순위를 매기라고
+        고집하는 이유입니다.</p></li>
+
+    <li><span class="t">2:30</span><span class="p">패널 5</span>
+      <p>이제 정말 중요한 시험입니다. Prolific 참가자 51명, 페이지마다 같은 audio의 20초 영상 두 개, 하나를 고릅니다. 모든
+        비교는 같은 untrained baseline과입니다. 초록 막대가 대조군 — 실제 모캡 — 이고 51명 중 49명이 그걸 골랐으니, 차이가
+        있으면 이 실험이 감지합니다. 주황 막대가 저희 튜닝된 정책들: 49 %, 48 %, 59 %, 구간이 전부 무승부선을 지납니다. 가장
+        날카롭게 말하면: 23명은 저희 정책 쪽, 23명은 baseline 쪽으로 기울었습니다. 그리고 학습 없는 대조 실험이 "학습이
+        잘못됐나 보다"라는 반론을 없앱니다 — 무작위 noise 32개 중 reward 최고를 고르기만 해도 held-out prompt 15개 전부에서
+        reward가 오르는데, 그래도 선호를 얻지 못합니다.</p></li>
+
+    <li class="ext"><span class="t">+1:00</span><span class="p">Table 3</span>
+      <p><em>d</em> 열은 Cohen's <em>d</em>: 평균 선호를 참가자들이 서로 엇갈리는 정도로 나눈 것이라, 0이 무승부고 막대는
+        <em>d</em>를 사람 비율로 읽은 것뿐입니다. K = 64 행만 점추정이 양수, +0.23인데, 그 실험은 30명이었고 그 크기의 효과를
+        해상하려면 약 150명이 필요합니다 — 그러니 승리가 아니라 판정 불가입니다. 두 시스템이 동등하다고 주장하지 않습니다.
+        신뢰할 만한 우위를 찾지 못했다고 주장합니다.</p></li>
+
+    <li><span class="t">3:30</span><span class="p">패널 6</span>
+      <p>그래서 왜일까요? 패널 6은 noise steering이 애초에 무엇을 바꿀 수 있는지 잽니다. (a) 발화당 후보 24개를 클러스터링했더니
+        검사가 "4개 그룹"이라고 했습니다 — 그런데 그룹이 하나도 없도록 만든 대조군도 600번 중 598번 같은 판정을 받았습니다.
+        그러니 구분되는 gesture 종류의 증거가 아닙니다. (b) 일부러 다르게 준 시작 자세는 몇 window 안에 잊힙니다 —
+        필름스트립에서 세 개의 다른 시작이 8초에 수렴하는 게 보입니다. (c) noise의 크기를 바꾸는 건 아무 효과가 없고, 방향만이
+        reward를 움직입니다. 결론: 이 checkpoint에서 steering은 execution detail을 바꾸지, coarse pattern을 바꾸지
+        않습니다.</p></li>
+
+    <li class="ext"><span class="t">+1:00</span><span class="p">패널 6a</span>
+      <p>클러스터링 대조군은 한 문장 더 할 가치가 있습니다. 사람들은 보통 클러스터를 믿으니까요. k-means는 항상 그룹을
+        돌려주고, 점수는 자른 게 얼마나 깔끔한지만 말하지 덩어리가 있었는지는 말하지 않습니다. 그래서 각 클립의 후보에
+        가우시안 하나 — 정의상 덩어리 하나 — 를 맞추고, 새 점 24개를 뽑아, 똑같은 파이프라인을 600번 돌렸습니다. 598번에서
+        "그룹"을 찾았고, 점수는 실제 데이터보다 높았습니다. 덩어리와 메뉴를 구분 못 하는 검사는 메뉴의 증거가 아닙니다.</p></li>
+
+    <li><span class="t">4:20</span><span class="p">패널 7–8</span>
+      <p>그리고 reward 쪽 — 패널 7이 exploit의 모습입니다: 이전 weight-space run, 같은 prompt에서 reward는 −128에서 −107로
+        오르는데 동작은 뻣뻣하고 과도하게 뻗어 갑니다. 합치면, 두 한계가 동시에 실패합니다: reward는 자기가 고른 출력에서 fine
+        ordering을 잃고, generator는 고를 만한 확연히 더 나은 후보를 제공하지 않습니다. 그게 coupled bottleneck입니다.</p></li>
+
+    <li class="ext"><span class="t">+1:00</span><span class="p">패널 8</span>
+      <p>가능한 원인 넷을 저울질했습니다. Reward validity: 만든 곳에서는 강하고, 선택된 출력에서는 약하고, 학습 없는 이득은
+        전이되지 않음 — 강한 근거. Reachable outputs: 일시적·국소적 변이뿐 — 이 checkpoint에 한해 강함. Optimization:
+        가중치 업데이트는 drift하고 한 noise policy는 맥락을 못 배움 — 기여 요인이지만 학습 없는 선택도 실패함. Evaluation:
+        같은 실험이 실제 동작을 49 대 2로 잡아냈으니 실험은 이유가 아님. 앞의 둘이 결과를 떠받칩니다.</p></li>
+
+    <li><span class="t">4:45</span><span class="p">패널 9</span>
+      <p>저희가 드리는 건 게이트 셋입니다. 현재 optimizer가 만든 신선한 같은-prompt 출력 위에서 reward를 검증하라. 선택을
+        최적화하기 전에 generator가 정말 구분되는 대안을 노출하는지 확인하라 — 아니면 도달 범위를 넓혀라. 그리고 학습된 점수의
+        상승을 믿기 전에, 결과를 아는 대조군을 넣은 충분히 큰 사람 실험을 하라. 감사합니다 — 영상은 QR 뒤에 있습니다.</p></li>
+  </ol>
+</section>
+</div>
+
 <div class="wrap cols">
   <nav class="rail" aria-label="Poster panels">
     <ol>
+      <li><a href="#talk"><span class="n">▶</span><span class="en">The talk</span><span class="ko">발표 대본</span></a></li>
       <li><a href="#p1"><span class="n">1</span><span class="en">Many valid gestures</span><span class="ko">여러 타당한 gesture</span></a></li>
       <li><a href="#p2"><span class="n">2</span><span class="en">Three boundaries</span><span class="ko">세 개의 경계</span></a></li>
       <li><a href="#p3"><span class="n">3</span><span class="en">Noise steering</span><span class="ko">Noise steering</span></a></li>
