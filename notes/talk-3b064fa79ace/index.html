@@ -768,11 +768,18 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
     </details>
     <details>
       <summary>"Maybe the policy training was just bad."</summary>
-      <p>That is exactly what the training-free control removes. <strong>Best-of-32</strong> updates no
-        parameters at all: for each held-out prompt it decodes 32 random unit-scale noises and keeps
-        the feasible candidate with the highest reward. It raises within-prompt reward by +0.98 and
-        does so on all 15 held-out prompts — and still wins no reliable human preference. So stronger
-        reward maximization alone is not enough, even with no policy-training artifacts to blame.</p>
+      <p>That is exactly what the training-free control removes. <strong>Best-of-32 — winner
+        selection</strong> — updates no parameters at all: for each held-out prompt it decodes 32
+        random unit-scale noises and keeps the feasible candidate with the highest reward, then shows
+        <em>that</em> candidate to people against the baseline. It is under Table 3 because it completes
+        the same argument: Table 3 says the trained policies did not win; this says the reason is not
+        the training. There is no policy to blame — the reward's own favourite, with the largest reward
+        gain we ever measured (+0.98, positive on all 15 held-out prompts), is what people saw.</p>
+      <p>The honest half: the human side of that control is a <strong>10-person pilot</strong>
+        (d = −0.40, p = 0.73 — slightly below baseline, not significant). The reward gain is a
+        deterministic measurement and is solid; the "no preference" is exploratory, and the board now
+        says so. What it rules out is the specific excuse "the policy just trained badly"; what it does
+        not do is measure the size of the gap precisely.</p>
     </details>
     <details>
       <summary>What the filmstrip under the table is</summary>
@@ -1273,7 +1280,8 @@ footer{margin-top:48px; padding-top:20px; border-top:1px solid var(--rule); colo
     </details>
     <details>
       <summary>"policy 학습이 잘못된 것 아닌가요?"</summary>
-      <p>그걸 제거하는 게 학습 없는 대조 실험입니다. <strong>best-of-32</strong>는 파라미터를 하나도 바꾸지 않습니다 — held-out prompt마다 무작위 unit-scale noise 32개를 디코드해서 reward가 가장 높은 feasible 후보를 남길 뿐입니다. 그런데도 within-prompt reward를 +0.98 올리고, held-out prompt 15개 <strong>전부</strong>에서 그렇게 하고도 신뢰할 만한 사람 선호를 못 얻었습니다. 즉 정책 학습의 artifact를 탓할 수 없는 상황에서도 reward를 더 세게 최대화하는 것만으로는 부족합니다.</p>
+      <p>그걸 제거하는 게 학습 없는 대조 실험입니다. <strong>best-of-32 — winner selection</strong> — 은 파라미터를 하나도 바꾸지 않습니다. held-out prompt마다 무작위 unit-scale noise 32개를 디코드해 reward 최고인 feasible 후보를 남기고, <em>그 후보</em>를 baseline과 나란히 사람에게 보여 줍니다. Table 3 아래에 있는 이유는 같은 논증을 완성하기 때문입니다. Table 3은 "학습된 정책이 못 이겼다", 이 줄은 "그 이유가 학습 탓은 아니다". 탓할 policy가 없습니다 — reward 자신이 고른 1등, 저희가 잰 것 중 가장 큰 reward 이득(+0.98, held-out 15개 전부 양수)을 사람이 본 겁니다.</p>
+      <p>정직한 절반: 이 대조군의 사람 평가는 <strong>10명 pilot</strong>입니다(d = −0.40, p = 0.73 — baseline보다 약간 아래, 유의하지 않음). reward 이득은 결정적 측정이라 견고하고, "선호 없음"은 탐색적이며 보드에 그렇게 적었습니다. 이 실험이 배제하는 것은 "policy가 학습을 잘못했을 뿐"이라는 특정 변명이고, 하지 못하는 것은 그 격차의 크기를 정밀하게 재는 일입니다.</p>
     </details>
     <details>
       <summary>표 아래 필름스트립이 뭔가요?</summary>
